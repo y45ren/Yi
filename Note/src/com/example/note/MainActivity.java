@@ -42,15 +42,15 @@ public class MainActivity extends Activity {
         
         //noteLayout.addView(canvasView);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(200, 200);
-        params.leftMargin = 100;
-        params.topMargin = 200;
-        noteLayout.addView(inkRegion.get(0), params);
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(200, 200);
+//        params.leftMargin = 100;
+//        params.topMargin = 200;
+        noteLayout.addView(inkRegion.get(0));
         
-        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(200, 200);
-        params1.leftMargin = 0;
-        params1.topMargin = -200;
-        noteLayout.addView(inkRegion.get(1), params1);
+//        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(200, 200);
+//        params1.leftMargin = 0;
+//        params1.topMargin = -200;
+        noteLayout.addView(inkRegion.get(1));
 
 //        // Create an animation instance
 //        Animation an = new RotateAnimation(45.0f, 45.0f, 0, 0);
