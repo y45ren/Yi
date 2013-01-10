@@ -38,10 +38,10 @@ public class MainActivity extends Activity {
         inkRegion.add(new InkRegion(this,0));
         inkRegion.add(new InkRegion(this,1));
         inkRegion.get(0).setBackgroundColor(Color.YELLOW);
-        inkRegion.get(1).setBackgroundColor(Color.RED);
+        inkRegion.get(1).setBackgroundColor(Color.CYAN);
         
         //noteLayout.addView(canvasView);
-
+        noteLayout.addView(canvasView);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200, 200);
         params.leftMargin = 100;
         params.topMargin = 200;
@@ -52,14 +52,14 @@ public class MainActivity extends Activity {
         params1.topMargin = 0;
         noteLayout.addView(inkRegion.get(1), params1);
 
-//        // Create an animation instance
-//        Animation an = new RotateAnimation(45.0f, 45.0f, 0, 0);
-//        // Set the animation's parameters
-//        an.setDuration(0);               // duration in ms
-//        an.setRepeatCount(0);                // -1 = infinite repeated
-//        an.setFillAfter(true);               // keep rotation after animation     
-//        // Apply animation to image view
-//        inkRegion.get(0).setAnimation(an);
+        // Create an animation instance
+        Animation an = new RotateAnimation(45.0f, 45.0f, 0, 0);
+        // Set the animation's parameters
+        an.setDuration(0);               // duration in ms
+        an.setRepeatCount(0);                // -1 = infinite repeated
+        an.setFillAfter(true);               // keep rotation after animation     
+        // Apply animation to image view
+        inkRegion.get(0).setAnimation(an);
 
     }
     
