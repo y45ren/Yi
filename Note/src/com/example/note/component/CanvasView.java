@@ -10,7 +10,7 @@ import android.view.View;
 
 
 public class CanvasView extends View{
-
+	test for git
 	//private static Anchor anchor;
 	public CanvasView(Context context) {
 		super(context);
