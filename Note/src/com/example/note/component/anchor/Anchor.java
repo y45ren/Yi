@@ -71,15 +71,15 @@ public class Anchor {
 
 		return stroke;
 	}
-	public Chunk generateCrossLine(){
-		Chunk chunk = new Chunk();
-		double tan=Math.tan(getAngle());
-		chunk.addStroke(new Point((int) (startPoint.x+startPoint.y*tan),0));
-		chunk.addPoint(new Point((int) (startPoint.x-(getHeight()-startPoint.y)*tan),getHeight()));
-		chunk.addStroke(new Point(0, (int) (startPoint.y-startPoint.x*tan)));
-		chunk.addPoint(new Point(getWidth(), (int) (startPoint.y+(getWidth()-startPoint.x)*tan)));
-		return chunk;
-	}
+//	public Chunk generateCrossLine(){
+//		Chunk chunk = new Chunk();
+//		double tan=Math.tan(getAngle());
+//		chunk.addStroke(new Point((int) (startPoint.x+startPoint.y*tan),0));
+//		chunk.addPoint(new Point((int) (startPoint.x-(getHeight()-startPoint.y)*tan),getHeight()));
+//		chunk.addStroke(new Point(0, (int) (startPoint.y-startPoint.x*tan)));
+//		chunk.addPoint(new Point(getWidth(), (int) (startPoint.y+(getWidth()-startPoint.x)*tan)));
+//		return chunk;
+//	}
 	
 	/**
 	 * @param rotate the rotate to set
