@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -43,7 +44,7 @@ public class MainActivity extends Activity {
         //noteLayout.addView(canvasView);
         noteLayout.addView(canvasView);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200, 200);
-        params.leftMargin = 100;
+        params.leftMargin = 0;
         params.topMargin = 200;
         noteLayout.addView(inkRegion.get(0),params);
         
@@ -60,11 +61,16 @@ public class MainActivity extends Activity {
         an.setFillAfter(true);               // keep rotation after animation     
         // Apply animation to image view
         inkRegion.get(0).setAnimation(an);
-
+        
     }
     
     
- 
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+    	
+		return false;
+    
+    }
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
