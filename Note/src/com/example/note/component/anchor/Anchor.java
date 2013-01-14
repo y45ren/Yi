@@ -1,5 +1,6 @@
 package com.example.note.component.anchor;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -80,6 +81,14 @@ public class Anchor {
 		multiStrokes.addStroke(new Point(0, (int) (startPoint.y-startPoint.x*tan)));
 		multiStrokes.addPoint(new Point(getWidth(), (int) (startPoint.y+(getWidth()-startPoint.x)*tan)));
 		return multiStrokes;
+	}
+	
+	public void draw(Canvas c, boolean redCross){
+		if (redCross){
+			generateCrossLine().draw(c, crossLinePaint);
+		}
+		generateAnchor().draw(c, anchorPaint);
+		generateLine().draw(c, linePaint);
 	}
 	
 	/**

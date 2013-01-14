@@ -2,6 +2,8 @@ package com.example.note.component;
 
 import java.util.ArrayList;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 
 public class MultiStrokes {
@@ -58,4 +60,14 @@ public class MultiStrokes {
 		// TODO Auto-generated method stub
 		chunk.clear();
 	}
+	
+	public void draw (Canvas c, Paint paint) {
+		// TODO Auto-generated method stub
+		for(Stroke stroke: chunk){
+			if(stroke.stroke.size()!=0){
+				stroke.draw(c, paint);
+			}
+		}
+	}
+	
 }

@@ -35,6 +35,20 @@ public class Stroke {
 		stroke.add(point);
 	}
 
+	public void draw(Canvas c, Paint paint) {
+		// TODO Auto-generated method stub
+		if (stroke.size() > 0) {
+			Point p0 = stroke.get(0);
+			for (int i = 1; i < stroke.size(); i++) {
+				Point p1 = stroke.get(i);
+				
+				c.drawLine(p0.x, p0.y, p1.x, p1.y, paint);
+				
+				p0 = p1;
+			}
+		}
+	}
+	
 	public void print() {
 		// TODO Auto-generated method stub
 		if (stroke.size()==0){
