@@ -91,8 +91,8 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         
         inkRegion.add(new InkRegion(this,0));
         inkRegion.add(new InkRegion(this,1));
-        inkRegion.get(0).setBackgroundColor(Color.YELLOW);
-        inkRegion.get(1).setBackgroundColor(Color.CYAN);
+        //inkRegion.get(0).setBackgroundColor(Color.YELLOW);
+        //inkRegion.get(1).setBackgroundColor(Color.CYAN);
         
         //noteLayout.addView(canvasView);
         noteLayout.addView(canvasView);
