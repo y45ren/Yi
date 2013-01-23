@@ -23,8 +23,8 @@ public class CanvasView extends View{
 	/**
 	 * components
 	 */
-	public Anchor anchor;
-	public MultiStrokes largeStrokes;
+	private static Anchor anchor;
+	public static MultiStrokes largeStrokes;
 	
 	/**
 	 * attributes
@@ -46,7 +46,11 @@ public class CanvasView extends View{
 	private enum State {MAGNIFY, WRITING, EDITING, NON_MAGNIFY, MAG2NON, NON2MAG, MAG2WRITING, WRITING2MAG, WRITING2NON};
 	private State state;
 	
-
+	/**
+	 * sensors and timers
+	 */
+	private Timer timer;
+	final private int activeTime = 1000;
 	
 	
 	public CanvasView(Context context) {

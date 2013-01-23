@@ -122,7 +122,7 @@ public class InkRegion extends LinearLayout{
 	public boolean onTouchEvent(MotionEvent event){
 		Point eventPoint = new Point((int)event.getX(),(int)event.getY());
 		System.out.println("InkRegion  "+this.UID+" : "+eventPoint);
-		return false;
+		return true;
 		
 	}
 	
