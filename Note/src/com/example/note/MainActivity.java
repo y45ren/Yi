@@ -97,23 +97,27 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         //noteLayout.addView(canvasView);
         noteLayout.addView(canvasView);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200, 200);
-        params.leftMargin = 0;
+        params.leftMargin = 300;
         params.topMargin = 200;
+        inkRegion.get(0).setBackgroundColor(Color.GREEN);
+        inkRegion.get(0).setPivotX(0);
+        inkRegion.get(0).setPivotY(0);
+        inkRegion.get(0).setRotation(45);
+        inkRegion.get(0).setScaleX((float) 0.2);
+        inkRegion.get(0).setScaleY((float) 0.3);
         noteLayout.addView(inkRegion.get(0),params);
         
-        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(200, 200);
-        params1.leftMargin = 0;
-        params1.topMargin = 0;
+        RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(200, 200);
+        params1.leftMargin = 300;
+        params1.topMargin = 200;
+        inkRegion.get(1).setBackgroundColor(Color.BLUE);
+        inkRegion.get(1).setPivotX(0);
+        inkRegion.get(1).setPivotY(0);
+        inkRegion.get(1).setRotation(90);
+        inkRegion.get(1).setScaleX((float) 0.2);
+        inkRegion.get(1).setScaleY((float) 0.2);
         noteLayout.addView(inkRegion.get(1), params1);
-
-        // Create an animation instance
-        Animation an = new RotateAnimation(45.0f, 45.0f, 0, 0);
-        // Set the animation's parameters
-        an.setDuration(0);               // duration in ms
-        an.setRepeatCount(0);                // -1 = infinite repeated
-        an.setFillAfter(true);               // keep rotation after animation     
-        // Apply animation to image view
-        inkRegion.get(0).setAnimation(an);
+        
     }
     
     
