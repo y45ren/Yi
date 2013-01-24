@@ -69,5 +69,16 @@ public class MultiStrokes {
 			}
 		}
 	}
+
+
+	public void transform(int maxX, int maxY, int minX, int minY, int height) {
+		// TODO Auto-generated method stub
+		for (Stroke stroke:chunk){
+			for (Point point:stroke.stroke){
+				point.set(point.x-minX, point.y=minY);
+			}
+		}
+		
+	}
 	
 }

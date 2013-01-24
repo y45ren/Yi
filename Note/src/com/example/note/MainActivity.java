@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.example.note.component.CanvasView;
+import com.example.note.Listener.Listener;
 import com.example.note.component.InkRegion;
 import com.example.note.component.MultiStrokes;
 import com.example.note.component.Status;
+import com.example.note.view.CanvasView;
+import com.example.note.view.MagnifiedView;
 
 
 import android.os.Bundle;
@@ -29,13 +31,14 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.*;
 
-public class MainActivity extends Activity implements CompoundButton.OnCheckedChangeListener{
-	
-	private ArrayList<InkRegion> inkRegion;
-	private MultiStrokes currentRegion;
+public class MainActivity extends Activity{
+
 	private CanvasView canvasView;
 	private Switch switchy;
-	private RelativeLayout noteLayout;
+	private Button next;
+	public RelativeLayout noteLayout;
+	public MagnifiedView magnifiedView;
+	public ArrayList<InkRegion> inkRegion;
 	/**
 	 * sensors and timers
 	 */
@@ -49,6 +52,10 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
 	final private int activeTime = 750;
 	final private int holdAchorTime = 650;
 	final private int vibrationTime = 100;
+	/**
+	 * Listeners
+	 */
+	Listener listener;
 	/**
 	 * status
 	 */
@@ -73,6 +80,8 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         mSensor=sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);  
         vibrator = (Vibrator) getSystemService(this.VIBRATOR_SERVICE);
         
+        //Listeners
+        listener = new Listener(this);
         //status
         status = Status.WRITING;
         
@@ -81,12 +90,16 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         
         noteLayout = (RelativeLayout)findViewById(R.id.notePanel);
         inkRegion = new ArrayList<InkRegion>();
-        currentRegion = new MultiStrokes();
+        new MultiStrokes();
         canvasView = new CanvasView(this);
+        magnifiedView = new MagnifiedView(this);
         switchy = new Switch(this);
         switchy = (Switch)findViewById(R.id.switch1);
-        switchy.setOnCheckedChangeListener(this);
+        switchy.setOnCheckedChangeListener(listener);
         
+        next = new Button(this);
+        next = (Button)findViewById(R.id.button1);
+        next.setOnClickListener(listener);
         
         
         inkRegion.add(new InkRegion(this,0));
@@ -96,6 +109,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         
         //noteLayout.addView(canvasView);
         noteLayout.addView(canvasView);
+        noteLayout.addView(magnifiedView);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200, 200);
         params.leftMargin = 300;
         params.topMargin = 200;
@@ -124,7 +138,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
     @Override
     public boolean onTouchEvent(MotionEvent event){
     	Point eventPoint = new Point((int)event.getX(),(int)event.getY());
-    	if (switchy.isChecked()){
+    	if (!switchy.isChecked()){
     		// Non-magnify mode
     	switch(event.getActionMasked()){
 			case MotionEvent.ACTION_DOWN:
@@ -152,9 +166,11 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
 				switch(status){
 				case WRITING:
 					setAnchorPoint.set(eventPoint.x, eventPoint.y);
+					magnifiedView.largeStrokes.addStroke(eventPoint);
+					magnifiedView.invalidate();
 					break;
 				case LOCATINGANCHOR:
-					canvasView.anchor.setPoint(eventPoint);
+					magnifiedView.anchor.setPoint(eventPoint);
 					break;
 				case SCALINGANCHOR:
 					break;
@@ -172,9 +188,11 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
 						anchorTimer.cancel();
 						anchorTimer.purge();
 					}
+					magnifiedView.largeStrokes.addPoint(eventPoint);
+					magnifiedView.invalidate();
 					break;
 				case LOCATINGANCHOR:
-					canvasView.anchor.setPoint(eventPoint);
+					magnifiedView.anchor.setPoint(eventPoint);
 					break;
 				case SCALINGANCHOR:
 					break;
@@ -186,10 +204,23 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
 				case WRITING:
 					anchorTimer.cancel();
 					anchorTimer.purge();
+					magnifiedView.invalidate();
 					break;
 				case LOCATINGANCHOR:
 					status = Status.WRITING;
 					sm.unregisterListener(myListener);
+					if (inkRegion.get(inkRegion.size()-1).chunkLine.size()!=0){
+						inkRegion.add(new InkRegion(this, magnifiedView.anchor.getHeight(), magnifiedView.anchor.getPoint()));
+						RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200, magnifiedView.anchor.getAnchorLen());
+				        params.leftMargin = magnifiedView.anchor.getPoint().x;
+				        params.topMargin = magnifiedView.anchor.getPoint().y;
+				        inkRegion.get(inkRegion.size()-1).setPivotX(0);
+				        inkRegion.get(inkRegion.size()-1).setPivotY(0);
+				        inkRegion.get(inkRegion.size()-1).setRotation(magnifiedView.anchor.getAngleInDegrees());
+						this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),params);
+						inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);	
+						System.out.println("HIHIHIHI"+magnifiedView.anchor.getAngle()+"ADASD"+magnifiedView.anchor.getAnchorLen());
+					}
 					break;
 				case SCALINGANCHOR:
 					status = Status.WRITING;
@@ -198,8 +229,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
 				break;
 			default:
 				break;
-			}
-    		canvasView.invalidate();
+			}    		
     	}
     	
 		return true;
@@ -212,15 +242,7 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
         return true;
     }
 
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		// TODO Auto-generated method stub
-		if (isChecked){
-			noteLayout.setBackgroundColor(0xffcdc9c8);
-		}else{
-			noteLayout.setBackgroundColor(0);
-		}
-	}
-    
+
     /**
      * start timer for anchor
      */
@@ -230,14 +252,14 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
 			public void run(){
 				vibrator.vibrate(vibrationTime);
 				
-				if (!canvasView.anchor.onAnchor(eventPoint)){
+				if (!magnifiedView.anchor.onAnchor(eventPoint)){
 					status = Status.LOCATINGANCHOR;
-					canvasView.anchor.setPoint(eventPoint);
+					magnifiedView.anchor.setPoint(eventPoint);
 					sm.registerListener(myListener, aSensor, SensorManager.SENSOR_DELAY_GAME);
 				}else{
 					status = Status.SCALINGANCHOR;
 				} 
-				canvasView.postInvalidate();
+				magnifiedView.postInvalidate();
 			}
 		}, activeTime);
 	}
@@ -267,8 +289,8 @@ public class MainActivity extends Activity implements CompoundButton.OnCheckedCh
             // TODO Auto-generated method stub  
             accelerometerValues=event.values;  
             if (accelerometerValues[2]<8.0){		//if the screen is not horizontal
-                canvasView.anchor.setRotate(accelerometerValues);
-                canvasView.postInvalidate();
+            	magnifiedView.anchor.setRotate(accelerometerValues);
+            	magnifiedView.postInvalidate();
             }
         }
     };

@@ -22,7 +22,7 @@ public class Anchor {
 	private Paint crossLinePaint;
 	private int height;
 	private int width;
-	final int anchorLen = 20;
+	private int anchorLen = 20;
 	final int lineLen = 150;
 	final int anchorRange = 40;
 
@@ -62,14 +62,14 @@ public class Anchor {
 
 	public Stroke generateAnchor(){
 		Stroke stroke = new Stroke();
-		stroke.addPoint(rotatePoint((new Point(startPoint.x, startPoint.y-anchorLen))));
-		stroke.addPoint(rotatePoint((new Point(startPoint.x, startPoint.y+anchorLen))));
+		stroke.addPoint(rotatePoint((new Point(startPoint.x, startPoint.y-getAnchorLen()))));
+		stroke.addPoint(rotatePoint((new Point(startPoint.x, startPoint.y+getAnchorLen()))));
 		return stroke;
 	}
 	public Stroke generateLine(){
 		Stroke stroke = new Stroke();
-		stroke.addPoint(rotatePoint(new Point(startPoint.x, startPoint.y+anchorLen)));
-		stroke.addPoint(rotatePoint(new Point(startPoint.x+lineLen, startPoint.y+anchorLen)));
+		stroke.addPoint(rotatePoint(new Point(startPoint.x, startPoint.y+getAnchorLen())));
+		stroke.addPoint(rotatePoint(new Point(startPoint.x+lineLen, startPoint.y+getAnchorLen())));
 
 		return stroke;
 	}
@@ -170,7 +170,12 @@ public class Anchor {
 	public float getAngle() {
 		return angle;
 	}
-
+	/**
+	 * @return the angle in degree
+	 */
+	public float getAngleInDegrees() {
+		return (float) Math.toDegrees(angle);
+	}
 	/**
 	 * @param angle the angle to set
 	 */
@@ -220,5 +225,19 @@ public class Anchor {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @return the anchorLen
+	 */
+	public int getAnchorLen() {
+		return 2*anchorLen;
+	}
+
+	/**
+	 * @param anchorLen the anchorLen to set
+	 */
+	public void setAnchorLen(int anchorLen) {
+		this.anchorLen = anchorLen;
 	}
 }

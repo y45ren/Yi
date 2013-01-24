@@ -1,30 +1,24 @@
-package com.example.note.component;
+package com.example.note.view;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
+import com.example.note.component.Stroke;
 import com.example.note.component.anchor.Anchor;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.view.MotionEvent;
-import android.view.View;
 
 
-public class CanvasView extends View{
-	
-	/**
-	 * components
-	 */
+public class MagnifiedView extends CanvasView{
+
 	public Anchor anchor;
-	public MultiStrokes largeStrokes;
+	
+	public int minX;
+	public int minY;
+	public int maxX;
+	public int maxY;
 	
 	/**
 	 * attributes
@@ -32,34 +26,15 @@ public class CanvasView extends View{
 	private int viewHeight;
 	private int viewWidth;
 	
-	/**
-	 * paints
-	 */
-	private Paint chunkPaint;
-	private Paint notesPaint;
-	private Paint framePaint;
-	private Paint debugPaint;
 	
-	/**
-	 * states
-	 */
-	private enum State {MAGNIFY, WRITING, EDITING, NON_MAGNIFY, MAG2NON, NON2MAG, MAG2WRITING, WRITING2MAG, WRITING2NON};
-	private State state;
-	
-
-	
-	
-	public CanvasView(Context context) {
+	public MagnifiedView(Context context) {
+		
 		super(context);
-		// TODO Auto-generated constructor stub
-		//components
 		anchor = new Anchor(new Point(300,200));
-		largeStrokes = new MultiStrokes();
-		//paints
-		chunkPaint = MyPaint.createPaint(Color.BLACK, 8);
-		notesPaint = MyPaint.createPaint(Color.BLACK, 4);
-		framePaint = MyPaint.createPaint(Color.GREEN, 2);
-		debugPaint = MyPaint.createPaint(Color.RED, 2);
+		minX=4000;
+		minY=4000;
+		maxX=0;
+		maxY=0;
 		
 	}
 	
@@ -71,7 +46,7 @@ public class CanvasView extends View{
 		anchor.setHeight(h);
 		anchor.setWidth(w);
 	}
-
+	
 	
 	@Override
 	public void onDraw(Canvas c){
@@ -84,7 +59,31 @@ public class CanvasView extends View{
 		largeStrokes.draw(c, notesPaint);
 	}
 	
-	
+	public void computeSize(){
+		for (Stroke stroke:largeStrokes.chunk){
+			for (Point point:stroke.stroke){
+				if (point.x<minX){
+					minX=point.x;
+				}
+				if (point.y<minY){
+					minY=point.y;
+				}
+				if (point.x>maxX){
+					maxX=point.x;
+				}
+				if (point.y>maxY){
+					maxY=point.y;
+				}
+			}
+		}
+	}
+	public void clear(){
+		this.largeStrokes.clear();
+		minX=4000;
+		minY=4000;
+		maxX=0;
+		maxY=0;
+	}
     final SensorEventListener myListener=new SensorEventListener(){  
         float[] accelerometerValues=new float[3];   
         public void onAccuracyChanged(Sensor sensor, int accuracy) {  
@@ -101,6 +100,5 @@ public class CanvasView extends View{
             }
         }
     };
-    
 
 }
