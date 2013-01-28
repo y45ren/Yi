@@ -1,10 +1,10 @@
 package com.example.note.Listener;
 
 import com.example.note.MainActivity;
-import com.example.note.R;
 import com.example.note.component.MultiStrokes;
 import com.example.note.view.MagnifiedView;
 
+import android.R;
 import android.graphics.Point;
 import android.view.View;
 import android.view.View.OnClickListener;
