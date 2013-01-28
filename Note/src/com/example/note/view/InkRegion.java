@@ -118,7 +118,8 @@ public class InkRegion extends LinearLayout{
 				0, regionHeight);
 
 		chunkLine.add(new ChunkLine(getContext(), params));
-		this.addView(chunkLine.get(0), chunkLine.get(0).params);
+		this.params.height *=2;
+		this.addView(chunkLine.get(chunkLine.size()-1), chunkLine.get(chunkLine.size()-1).params);
 	}
 
 

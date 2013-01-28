@@ -94,6 +94,11 @@ public class MainActivity extends Activity{
         new MultiStrokes();
         canvasView = new CanvasView(this);
         magnifiedView = new MagnifiedView(this);
+        
+        inkRegion.add(new InkRegion(this, magnifiedView.anchor.getAnchorLen(), 
+				magnifiedView.anchor.getPoint(), magnifiedView.anchor.getAngleInDegrees()));
+		this.noteLayout.addView(inkRegion.get(0),inkRegion.get(0).params);
+        
         switchy = new Switch(this);
         switchy = (Switch)findViewById(R.id.switch1);
         switchy.setOnCheckedChangeListener(listener);

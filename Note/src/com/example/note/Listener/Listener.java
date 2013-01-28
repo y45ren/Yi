@@ -31,7 +31,7 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if (v.getId()==R.id.next){
+		
 			mA.magnifiedView.computeSize();
 			newChunk = new MultiStrokes();
 			newChunk.copyChunk(mA.magnifiedView.largeStrokes);
@@ -42,17 +42,15 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 			int width = (int) (scale * (mA.magnifiedView.maxX - mA.magnifiedView.minX));
 			System.out.println(width+" sd  "+ (mA.magnifiedView.maxY - mA.magnifiedView.minY)+"  scale:"+scale);
 			mA.inkRegion.get(mA.inkRegion.size()-1).addChunk(newChunk, pivotPoint, endPoint, scale, width);
-			
-			mA.magnifiedView.clear();
-			mA.magnifiedView.invalidate();
-		} if (v.getId()==R.id.newLine){
+		if (v.getId()==R.id.newLine){
 			mA.magnifiedView.computeSize();
+			
 			newChunk = new MultiStrokes();
 			newChunk.copyChunk(mA.magnifiedView.largeStrokes);
-			
-			mA.inkRegion.get(mA.inkRegion.size()-1).addLine();
-			
+			mA.inkRegion.get(mA.inkRegion.size()-1).addLine();			
 		}
+		mA.magnifiedView.clear();
+		mA.magnifiedView.invalidate();
 		
 	}
 
