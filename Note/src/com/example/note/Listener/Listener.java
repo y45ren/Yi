@@ -35,7 +35,7 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 			mA.magnifiedView.computeSize();
 			newChunk = new MultiStrokes();
 			newChunk.copyChunk(mA.magnifiedView.largeStrokes);
-			//newChunk.transform(mA.magnifiedView.maxX, mA.magnifiedView.maxY, mA.magnifiedView.minX, mA.magnifiedView.minY, mA.inkRegion.get(mA.inkRegion.size()-1).getRegionHeight());
+
 			Point pivotPoint = new Point(mA.magnifiedView.minX, mA.magnifiedView.minY);
 			Point endPoint = new Point(mA.magnifiedView.maxX, mA.magnifiedView.maxY);
 			double scale = (double)mA.inkRegion.get(mA.inkRegion.size()-1).getRegionHeight() / (double)(mA.magnifiedView.maxY - mA.magnifiedView.minY);
@@ -46,6 +46,9 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 			mA.magnifiedView.clear();
 			mA.magnifiedView.invalidate();
 		} if (v.getId()==R.id.newLine){
+			mA.magnifiedView.computeSize();
+			newChunk = new MultiStrokes();
+			newChunk.copyChunk(mA.magnifiedView.largeStrokes);
 			
 		}
 		

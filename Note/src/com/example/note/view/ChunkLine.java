@@ -1,9 +1,8 @@
-package com.example.note.component;
+package com.example.note.view;
 
 import java.util.ArrayList;
 
-import com.example.note.view.ChunkFrame;
-import com.example.note.view.ChunkView;
+import com.example.note.component.MultiStrokes;
 
 import android.content.Context;
 import android.graphics.Color;

@@ -5,10 +5,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.example.note.Listener.Listener;
-import com.example.note.component.InkRegion;
 import com.example.note.component.MultiStrokes;
 import com.example.note.component.Status;
 import com.example.note.view.CanvasView;
+import com.example.note.view.InkRegion;
 import com.example.note.view.MagnifiedView;
 
 
