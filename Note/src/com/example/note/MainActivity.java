@@ -36,6 +36,7 @@ public class MainActivity extends Activity{
 	private CanvasView canvasView;
 	private Switch switchy;
 	private Button next;
+	private Button newLine;
 	public RelativeLayout noteLayout;
 	public MagnifiedView magnifiedView;
 	public ArrayList<InkRegion> inkRegion;
@@ -98,9 +99,12 @@ public class MainActivity extends Activity{
         switchy.setOnCheckedChangeListener(listener);
         
         next = new Button(this);
-        next = (Button)findViewById(R.id.button1);
+        next = (Button)findViewById(R.id.next);
         next.setOnClickListener(listener);
- 
+        newLine = new Button(this);
+        newLine = (Button)findViewById(R.id.newLine);
+        newLine.setOnClickListener(listener);
+        
         //noteLayout.addView(canvasView);
         noteLayout.addView(canvasView);
         noteLayout.addView(magnifiedView);        

@@ -14,11 +14,19 @@
         android:text="Magnify" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="Next" />
+
+    <Button
+        android:id="@+id/newLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/button1"
+        android:text="Enter" />
 
 </RelativeLayout>
