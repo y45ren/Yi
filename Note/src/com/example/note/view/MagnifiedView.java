@@ -51,10 +51,10 @@ public class MagnifiedView extends CanvasView{
 	@Override
 	public void onDraw(Canvas c){
 		super.onDraw(c);
-		
+		computeSize();
 		//anchor
 		anchor.draw(c, true);
-		
+		c.drawLine(minX, minY, maxX, maxY, notesPaint);
 		//draw large strokes
 		largeStrokes.draw(c, notesPaint);
 	}

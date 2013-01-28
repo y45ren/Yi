@@ -100,38 +100,10 @@ public class MainActivity extends Activity{
         next = new Button(this);
         next = (Button)findViewById(R.id.button1);
         next.setOnClickListener(listener);
-        
-        
-        inkRegion.add(new InkRegion(this,0));
-        inkRegion.add(new InkRegion(this,1));
-        //inkRegion.get(0).setBackgroundColor(Color.YELLOW);
-        //inkRegion.get(1).setBackgroundColor(Color.CYAN);
-        
+ 
         //noteLayout.addView(canvasView);
         noteLayout.addView(canvasView);
-        noteLayout.addView(magnifiedView);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200, 200);
-        params.leftMargin = 300;
-        params.topMargin = 200;
-        inkRegion.get(0).setBackgroundColor(Color.GREEN);
-        inkRegion.get(0).setPivotX(0);
-        inkRegion.get(0).setPivotY(0);
-        inkRegion.get(0).setRotation(45);
-        inkRegion.get(0).setScaleX((float) 0.2);
-        inkRegion.get(0).setScaleY((float) 0.3);
-        noteLayout.addView(inkRegion.get(0),params);
-        
-        RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(200, 200);
-        params1.leftMargin = 300;
-        params1.topMargin = 200;
-        inkRegion.get(1).setBackgroundColor(Color.BLUE);
-        inkRegion.get(1).setPivotX(0);
-        inkRegion.get(1).setPivotY(0);
-        inkRegion.get(1).setRotation(90);
-        inkRegion.get(1).setScaleX((float) 0.2);
-        inkRegion.get(1).setScaleY((float) 0.2);
-        noteLayout.addView(inkRegion.get(1), params1);
-        
+        noteLayout.addView(magnifiedView);        
     }
     
     
@@ -209,18 +181,16 @@ public class MainActivity extends Activity{
 				case LOCATINGANCHOR:
 					status = Status.WRITING;
 					sm.unregisterListener(myListener);
-					if (inkRegion.get(inkRegion.size()-1).chunkLine.size()!=0){
-						inkRegion.add(new InkRegion(this, magnifiedView.anchor.getHeight(), magnifiedView.anchor.getPoint()));
-						RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200, magnifiedView.anchor.getAnchorLen());
-				        params.leftMargin = magnifiedView.anchor.getPoint().x;
-				        params.topMargin = magnifiedView.anchor.getPoint().y;
-				        inkRegion.get(inkRegion.size()-1).setPivotX(0);
-				        inkRegion.get(inkRegion.size()-1).setPivotY(0);
-				        inkRegion.get(inkRegion.size()-1).setRotation(magnifiedView.anchor.getAngleInDegrees());
-						this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),params);
-						inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);	
-						System.out.println("HIHIHIHI"+magnifiedView.anchor.getAngle()+"ADASD"+magnifiedView.anchor.getAnchorLen());
+					
+					if (inkRegion.size()!=0 && inkRegion.get(inkRegion.size()-1).chunkLine.size()==0){
+						noteLayout.removeView(inkRegion.get(inkRegion.size()-1));
+						inkRegion.remove(inkRegion.size()-1);						
 					}
+					inkRegion.add(new InkRegion(this, magnifiedView.anchor.getAnchorLen(), 
+							magnifiedView.anchor.getPoint(), magnifiedView.anchor.getAngleInDegrees()));
+					this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),inkRegion.get(inkRegion.size()-1).params);
+					inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);	
+				
 					break;
 				case SCALINGANCHOR:
 					status = Status.WRITING;
@@ -232,7 +202,7 @@ public class MainActivity extends Activity{
 			}    		
     	}
     	
-		return true;
+		return false;
     }
 
 
@@ -251,7 +221,7 @@ public class MainActivity extends Activity{
 		anchorTimer.schedule(new TimerTask(){
 			public void run(){
 				vibrator.vibrate(vibrationTime);
-				
+				magnifiedView.clear();
 				if (!magnifiedView.anchor.onAnchor(eventPoint)){
 					status = Status.LOCATINGANCHOR;
 					magnifiedView.anchor.setPoint(eventPoint);

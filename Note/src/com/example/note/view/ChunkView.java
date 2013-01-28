@@ -17,14 +17,16 @@ public class ChunkView extends View{
 		// TODO Auto-generated constructor stub
 		this.setBackgroundColor(Color.GREEN);
 		notesPaint = MyPaint.createPaint(Color.BLACK, 4);
-		this.chunk = chunk;
+		this.chunk = new MultiStrokes();
+		this.chunk.copyChunk(chunk);
+		
 		invalidate();
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		canvas.drawLine(0, 0, 70, 10, MyPaint.createPaint(Color.BLUE, 10));
+		
 		chunk.draw(canvas, notesPaint);
 	}
 

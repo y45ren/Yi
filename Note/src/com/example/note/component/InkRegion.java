@@ -3,41 +3,34 @@ package com.example.note.component;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsoluteLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 public class InkRegion extends LinearLayout{
 	private int UID;
 	private int regionWidth;
 	private int regionHeight;
 	private Point startPoint;
-	
+	public RelativeLayout.LayoutParams params;
 	public ArrayList<ChunkLine> chunkLine;
 	
-	public InkRegion(Context context, int h, Point sP) {
+	public InkRegion(Context context, int h, Point sP, float angle) {
 		super(context);
 		this.setOrientation(VERTICAL);
 		startPoint = new Point(sP.x,sP.y);
-		regionHeight = h;
+		regionWidth = 0;
+		regionHeight = 2*h;
 		chunkLine = new ArrayList<ChunkLine>();
-		chunkLine.add(new ChunkLine(context));
-//		chunkLine.add(new ChunkLine(context));
-		LayoutParams params = new LinearLayout.LayoutParams(
-                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-//		LayoutParams params1 = new LinearLayout.LayoutParams(
-//                80,40);
-		this.addView(chunkLine.get(0),params);
-//		this.addView(chunkLine.get(1),params);
+		
+		params = new RelativeLayout.LayoutParams(regionWidth, 2*h);
+//		params = new RelativeLayout.LayoutParams(500, 500);
+		params.leftMargin = sP.x;
+        params.topMargin = sP.y-h;
+        this.setPivotX(0);
+        this.setPivotY(h);
+        this.setRotation(angle);
                
 	}
 	
@@ -46,8 +39,6 @@ public class InkRegion extends LinearLayout{
 		this.UID = UID;
 		this.setOrientation(VERTICAL);
 		chunkLine = new ArrayList<ChunkLine>();
-		chunkLine.add(new ChunkLine(context));
-		chunkLine.add(new ChunkLine(context));
 		LayoutParams params = new LinearLayout.LayoutParams(
                 LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		LayoutParams params1 = new LinearLayout.LayoutParams(
@@ -72,7 +63,25 @@ public class InkRegion extends LinearLayout{
 		return false;
 		
 	}
+	
+	public void addChunk(MultiStrokes newChunk, Point pivotPoint, Point endPoint, double scale, int width) {
+		this.params.width += width;
+		if (chunkLine.size()==0){
+			LayoutParams params = new LinearLayout.LayoutParams(
+					0, regionHeight);
 
+			chunkLine.add(new ChunkLine(getContext(), params));
+			this.addView(chunkLine.get(0), chunkLine.get(0).params);
+//			LayoutParams params = new LinearLayout.LayoutParams(
+//					500, 500);
+//
+//			chunkLine.add(new ChunkLine(getContext(), params));
+//			this.addView(chunkLine.get(0), params);
+		}
+		
+		chunkLine.get(chunkLine.size()-1).addChunk(newChunk, pivotPoint, endPoint, scale, width, this.regionHeight);
+		
+	}
 	/**
 	 * @return the regionHeight
 	 */
@@ -101,9 +110,6 @@ public class InkRegion extends LinearLayout{
 		this.regionWidth = regionWidth;
 	}
 
-	public void addChunk(MultiStrokes newChunk) {
-		chunkLine.get(chunkLine.size()-1).addChunk(newChunk);
-		
-	}
+
 	
 }

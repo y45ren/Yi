@@ -231,7 +231,7 @@ public class Anchor {
 	 * @return the anchorLen
 	 */
 	public int getAnchorLen() {
-		return 2*anchorLen;
+		return anchorLen;
 	}
 
 	/**

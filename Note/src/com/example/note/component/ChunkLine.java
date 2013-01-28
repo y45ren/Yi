@@ -2,40 +2,50 @@ package com.example.note.component;
 
 import java.util.ArrayList;
 
+import com.example.note.view.ChunkFrame;
 import com.example.note.view.ChunkView;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
 public class ChunkLine extends LinearLayout{
 
-	private ArrayList<ChunkView> chunkView;
+	private ArrayList<ChunkFrame> chunkFrame;
+	public LayoutParams params;
 	
-	public ChunkLine(Context context) {
+	public ChunkLine(Context context, LayoutParams params) {
 		super(context);
 		// TODO Auto-generated constructor stub
 		this.setOrientation(HORIZONTAL);
-		chunkView = new ArrayList<ChunkView>();
-//		chunkView.add(new ChunkView(context));
-//		
-//		LayoutParams params = new LinearLayout.LayoutParams(
-//                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-//		LayoutParams params1 = new LinearLayout.LayoutParams(
-//                80,40);
-//		this.addView(chunkView.get(0),params1);
-//	
-//		this.addView(chunkView.get(1),params1);
+		chunkFrame = new ArrayList<ChunkFrame>();
+		this.params = new LayoutParams(params);
+		this.setBackgroundColor(Color.YELLOW);
 	}
 
-	public void addChunk(MultiStrokes newChunk) {
+	public void addChunk(MultiStrokes newChunk, Point pivotPoint, Point endPoint, double scale, int width, int regionHeight) {
 		// TODO Auto-generated method stub
-		chunkView.add(new ChunkView(getContext(), newChunk));
-		LayoutParams params = new LinearLayout.LayoutParams(
-              LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-	
-		this.addView(chunkView.get(chunkView.size()-1),params);
+		chunkFrame.add(new ChunkFrame(getContext(), newChunk));
+		chunkFrame.get(chunkFrame.size()-1).addChunk(newChunk, pivotPoint, endPoint, scale, width, regionHeight);
+		
+		//LayoutParams params = new LinearLayout.LayoutParams((int) width, regionHeight);
+		
+		LayoutParams childParams = new LinearLayout.LayoutParams(width, regionHeight);
+		//LayoutParams childParams = new LinearLayout.LayoutParams(endPoint.x-pivotPoint.x, endPoint.y-pivotPoint.y);
+//		LayoutParams childParams = new LinearLayout.LayoutParams(endPoint.x-pivotPoint.x, endPoint.y-pivotPoint.y);
+//		childParams.leftMargin = -pivotPoint.x;
+//		childParams.topMargin = -pivotPoint.y;
+//		childParams.rightMargin = (int) ((endPoint.x-pivotPoint.x)*scale);
+//		childParams.bottomMargin = (int) ((endPoint.y-pivotPoint.y)*scale);
+//		childParams.rightMargin = (int) ((endPoint.x-pivotPoint.x));
+//		childParams.bottomMargin = (int) ((endPoint.y-pivotPoint.y));
+        
+		this.addView(chunkFrame.get(chunkFrame.size()-1),childParams);
 
+		this.params.width += width;
+		System.out.println("a: "+(int)width+"b: "+this.params.width);
 	}
 	
 }

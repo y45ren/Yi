@@ -4,6 +4,7 @@ import com.example.note.MainActivity;
 import com.example.note.component.MultiStrokes;
 import com.example.note.view.MagnifiedView;
 
+import android.graphics.Point;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -30,9 +31,15 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		mA.magnifiedView.computeSize();
+		newChunk = new MultiStrokes();
 		newChunk.copyChunk(mA.magnifiedView.largeStrokes);
-		newChunk.transform(mA.magnifiedView.maxX, mA.magnifiedView.maxY, mA.magnifiedView.minX, mA.magnifiedView.minY, mA.inkRegion.get(mA.inkRegion.size()-1).getRegionHeight());
-		mA.inkRegion.get(mA.inkRegion.size()-1).addChunk(newChunk);
+		//newChunk.transform(mA.magnifiedView.maxX, mA.magnifiedView.maxY, mA.magnifiedView.minX, mA.magnifiedView.minY, mA.inkRegion.get(mA.inkRegion.size()-1).getRegionHeight());
+		Point pivotPoint = new Point(mA.magnifiedView.minX, mA.magnifiedView.minY);
+		Point endPoint = new Point(mA.magnifiedView.maxX, mA.magnifiedView.maxY);
+		double scale = (double)mA.inkRegion.get(mA.inkRegion.size()-1).getRegionHeight() / (double)(mA.magnifiedView.maxY - mA.magnifiedView.minY);
+		int width = (int) (scale * (mA.magnifiedView.maxX - mA.magnifiedView.minX));
+		System.out.println(width+" sd  "+ (mA.magnifiedView.maxY - mA.magnifiedView.minY)+"  scale:"+scale);
+		mA.inkRegion.get(mA.inkRegion.size()-1).addChunk(newChunk, pivotPoint, endPoint, scale, width);
 		
 		mA.magnifiedView.clear();
 		mA.magnifiedView.invalidate();
