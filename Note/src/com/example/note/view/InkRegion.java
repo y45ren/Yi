@@ -112,6 +112,15 @@ public class InkRegion extends LinearLayout{
 		this.regionWidth = regionWidth;
 	}
 
+	public void addLine() {
+		// TODO Auto-generated method stub
+		LayoutParams params = new LinearLayout.LayoutParams(
+				0, regionHeight);
+
+		chunkLine.add(new ChunkLine(getContext(), params));
+		this.addView(chunkLine.get(0), chunkLine.get(0).params);
+	}
+
 
 	
 }

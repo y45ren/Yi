@@ -50,6 +50,8 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 			newChunk = new MultiStrokes();
 			newChunk.copyChunk(mA.magnifiedView.largeStrokes);
 			
+			mA.inkRegion.get(mA.inkRegion.size()-1).addLine();
+			
 		}
 		
 	}
