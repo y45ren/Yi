@@ -13,7 +13,7 @@ import android.hardware.SensorEventListener;
 
 public class MagnifiedView extends CanvasView{
 
-	public Anchor anchor;
+	
 	
 	public int minX;
 	public int minY;
@@ -30,7 +30,7 @@ public class MagnifiedView extends CanvasView{
 	public MagnifiedView(Context context) {
 		
 		super(context);
-		anchor = new Anchor(new Point(300,200));
+		
 		minX=4000;
 		minY=4000;
 		maxX=0;
@@ -42,9 +42,6 @@ public class MagnifiedView extends CanvasView{
 	public void onSizeChanged(int w,int h,int ow, int oh){
 		viewHeight = h;
 		viewWidth = w;
-		
-		anchor.setHeight(h);
-		anchor.setWidth(w);
 	}
 	
 	
@@ -52,8 +49,7 @@ public class MagnifiedView extends CanvasView{
 	public void onDraw(Canvas c){
 		super.onDraw(c);
 		computeSize();
-		//anchor
-		anchor.draw(c, true);
+		
 		c.drawLine(minX, minY, maxX, maxY, notesPaint);
 		//draw large strokes
 		largeStrokes.draw(c, notesPaint);
@@ -84,21 +80,6 @@ public class MagnifiedView extends CanvasView{
 		maxX=0;
 		maxY=0;
 	}
-    final SensorEventListener myListener=new SensorEventListener(){  
-        float[] accelerometerValues=new float[3];   
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {  
-            // TODO Auto-generated method stub  
-              
-        }  
-  
-        public void onSensorChanged(SensorEvent event) {  
-            // TODO Auto-generated method stub  
-            accelerometerValues=event.values;  
-            if (accelerometerValues[2]<8.0){		//if the screen is not horizontal
-                anchor.setRotate(accelerometerValues);
-                postInvalidate();
-            }
-        }
-    };
+    
 
 }

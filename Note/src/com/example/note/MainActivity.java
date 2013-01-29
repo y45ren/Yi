@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import com.example.note.Listener.Listener;
 import com.example.note.component.MultiStrokes;
 import com.example.note.component.Status;
+import com.example.note.view.AnchorView;
 import com.example.note.view.CanvasView;
 import com.example.note.view.InkRegion;
 import com.example.note.view.MagnifiedView;
@@ -33,12 +34,16 @@ import android.widget.*;
 
 public class MainActivity extends Activity{
 
+	/**
+	 * views
+	 */
 	private CanvasView canvasView;
 	private Switch switchy;
 	private Button next;
 	private Button newLine;
 	public RelativeLayout noteLayout;
 	public MagnifiedView magnifiedView;
+	public AnchorView anchorView;
 	public ArrayList<InkRegion> inkRegion;
 	/**
 	 * sensors and timers
@@ -68,6 +73,12 @@ public class MainActivity extends Activity{
 	private Point setAnchorPoint;
 	private int screenWidth;
 	private int screenHeight;
+	
+	/**
+	 * animation 
+	 */
+	private Animation anchorBlink;
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,8 +110,10 @@ public class MainActivity extends Activity{
         canvasView = new CanvasView(this);
         magnifiedView = new MagnifiedView(this);
         
-        inkRegion.add(new InkRegion(this, magnifiedView.anchor.getAnchorLen(), 
-				magnifiedView.anchor.getPoint(), magnifiedView.anchor.getAngleInDegrees()));
+        anchorView = new AnchorView(this);
+        
+        inkRegion.add(new InkRegion(this, anchorView.anchor.getAnchorLen(), 
+				anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
 		this.noteLayout.addView(inkRegion.get(0),inkRegion.get(0).params);
         
         switchy = new Switch(this);
@@ -116,7 +129,8 @@ public class MainActivity extends Activity{
         
         //noteLayout.addView(canvasView);
         noteLayout.addView(canvasView);
-        noteLayout.addView(magnifiedView);        
+        noteLayout.addView(magnifiedView);       
+        noteLayout.addView(anchorView);
     }
     
     
@@ -156,9 +170,10 @@ public class MainActivity extends Activity{
 					magnifiedView.invalidate();
 					break;
 				case LOCATINGANCHOR:
-					magnifiedView.anchor.setPoint(eventPoint);
+					anchorView.anchor.setPoint(eventPoint);
 					break;
 				case SCALINGANCHOR:
+					
 					break;
 				}
 				startAnchorTimer(eventPoint);
@@ -178,7 +193,7 @@ public class MainActivity extends Activity{
 					magnifiedView.invalidate();
 					break;
 				case LOCATINGANCHOR:
-					magnifiedView.anchor.setPoint(eventPoint);
+					anchorView.anchor.setPoint(eventPoint);
 					break;
 				case SCALINGANCHOR:
 					break;
@@ -200,8 +215,8 @@ public class MainActivity extends Activity{
 						noteLayout.removeView(inkRegion.get(inkRegion.size()-1));
 						inkRegion.remove(inkRegion.size()-1);						
 					}
-					inkRegion.add(new InkRegion(this, magnifiedView.anchor.getAnchorLen(), 
-							magnifiedView.anchor.getPoint(), magnifiedView.anchor.getAngleInDegrees()));
+					inkRegion.add(new InkRegion(this, anchorView.anchor.getAnchorLen(), 
+							anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
 					this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),inkRegion.get(inkRegion.size()-1).params);
 					inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);	
 				
@@ -236,9 +251,9 @@ public class MainActivity extends Activity{
 			public void run(){
 				vibrator.vibrate(vibrationTime);
 				magnifiedView.clear();
-				if (!magnifiedView.anchor.onAnchor(eventPoint)){
+				if (!anchorView.anchor.onAnchor(eventPoint)){
 					status = Status.LOCATINGANCHOR;
-					magnifiedView.anchor.setPoint(eventPoint);
+					anchorView.anchor.setPoint(eventPoint);
 					sm.registerListener(myListener, aSensor, SensorManager.SENSOR_DELAY_GAME);
 				}else{
 					status = Status.SCALINGANCHOR;
@@ -274,7 +289,7 @@ public class MainActivity extends Activity{
             accelerometerValues=event.values;  
             if (accelerometerValues[2]<8.0){		//if the screen is not horizontal
             	
-            	magnifiedView.anchor.setRotate(accelerometerValues);
+            	anchorView.anchor.setRotate(accelerometerValues);
             	magnifiedView.postInvalidate();
             }
         }
