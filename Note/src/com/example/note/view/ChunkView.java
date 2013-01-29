@@ -27,6 +27,7 @@ public class ChunkView extends View{
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		chunk.draw(canvas, notesPaint);
+		System.out.println("chunkView draw CALLED!!!");
 	}
 
 	public void addChunk(MultiStrokes newChunk) {

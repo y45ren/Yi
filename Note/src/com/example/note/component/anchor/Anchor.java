@@ -50,7 +50,8 @@ public class Anchor {
 		this.setHeight(0);
 		this.setWidth(0);
 	}
-	
+
+
 	public void setPoint(Point point){
 		this.startPoint.set(point.x, point.y);
 	}
@@ -87,6 +88,7 @@ public class Anchor {
 		if (redCross){
 			generateCrossLine().draw(c, crossLinePaint);
 		}
+		
 		generateAnchor().draw(c, anchorPaint);
 		generateLine().draw(c, linePaint);
 	}
@@ -191,12 +193,23 @@ public class Anchor {
 	}
 
 	/**
-	 * @param height the height to set
+	 * @param eventPoint the height to set
 	 */
-	public void setHeight(int height) {
-		this.height = height;
+	public void setAnchorLen(Point eventPoint) {
+		
+//		Point a = rotatePoint((new Point(startPoint.x, startPoint.y-getAnchorLen())));
+//		Point b = rotatePoint((new Point(startPoint.x, startPoint.y+getAnchorLen())));
+//		this.anchorLen = ((b.x-a.x)*(eventPoint.x-a.x)+(b.y-a.y)*(eventPoint.y-a.y));
+//		System.out.println("ANCHORLEN: "+ ((b.x-a.x)*(eventPoint.x-a.x)+(b.y-a.y)*(eventPoint.y-a.y)));
+		this.anchorLen = (int) Math.sqrt(Math.pow((eventPoint.x-startPoint.x),2)+Math.pow((eventPoint.y-startPoint.y),2));
+		System.out.println("ANCHORLEN: "+this.anchorLen);
+		
 	}
-
+	
+	public void setHeight(int i) {
+		// TODO Auto-generated method stub
+		this.height = i;
+	}
 	/**
 	 * @return the width
 	 */

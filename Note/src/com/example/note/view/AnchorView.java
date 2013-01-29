@@ -30,6 +30,7 @@ public class AnchorView extends View{
 		super.onDraw(c);
 		//anchor
 		anchor.draw(c, true);
+		System.out.println("AnchorView draw CALLED!!!");
 	}
 	
 	final SensorEventListener myListener=new SensorEventListener(){  

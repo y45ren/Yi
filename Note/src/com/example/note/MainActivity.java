@@ -170,9 +170,11 @@ public class MainActivity extends Activity{
 					break;
 				case LOCATINGANCHOR:
 					anchorView.anchor.setPoint(eventPoint);
+					magnifiedView.invalidate();
 					break;
 				case SCALINGANCHOR:
-					
+					anchorView.anchor.setAnchorLen(eventPoint);
+					magnifiedView.invalidate();
 					break;
 				}
 				startAnchorTimer(eventPoint);
@@ -193,8 +195,11 @@ public class MainActivity extends Activity{
 					break;
 				case LOCATINGANCHOR:
 					anchorView.anchor.setPoint(eventPoint);
+					magnifiedView.invalidate();
 					break;
 				case SCALINGANCHOR:
+					anchorView.anchor.setAnchorLen(eventPoint);
+					magnifiedView.invalidate();
 					break;
 				}	
 				break;
@@ -222,6 +227,17 @@ public class MainActivity extends Activity{
 					break;
 				case SCALINGANCHOR:
 					status = Status.WRITING;
+
+					if (inkRegion.size()!=0 && inkRegion.get(inkRegion.size()-1).chunkLine.size()==0){
+						noteLayout.removeView(inkRegion.get(inkRegion.size()-1));
+						inkRegion.remove(inkRegion.size()-1);						
+					}
+					inkRegion.add(new InkRegion(this, anchorView.anchor.getAnchorLen(), 
+							anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
+					this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),inkRegion.get(inkRegion.size()-1).params);
+					inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);
+					
+					magnifiedView.invalidate();
 					break;
 				}	
 				break;

@@ -39,8 +39,8 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		// TODO Auto-generated method stub
 		if (isChecked){
-			mA.noteLayout.setBackgroundColor(0xffcdc9c8);
-			mA.anchorView.setAnimation(this.anchorBlink);
+//			mA.noteLayout.setBackgroundColor(0xffcdc9c8);
+			//mA.anchorView.setAnimation(this.anchorBlink);
 		}else{
 			mA.noteLayout.setBackgroundColor(0);
 		}
@@ -58,10 +58,13 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 			double scale = (double)mA.inkRegion.get(regionIndex).getLineHeight() / (double)(mA.magnifiedView.maxY - mA.magnifiedView.minY);
 			int width = (int) (scale * (mA.magnifiedView.maxX - mA.magnifiedView.minX));
 			//System.out.println(width+" sd  "+ (mA.magnifiedView.maxY - mA.magnifiedView.minY)+"  scale:"+scale);
-			mA.inkRegion.get(regionIndex).addChunk(newChunk, pivotPoint, endPoint, scale, width);
+			if (mA.magnifiedView.largeStrokes.chunk.size()!=0){
+				mA.inkRegion.get(regionIndex).addChunk(newChunk, pivotPoint, endPoint, scale, width);
+				mA.anchorView.anchor.moveX(width);
+			}
 			
 			//move anchor
-			mA.anchorView.anchor.moveX(width);
+			
 		if (v.getId()==R.id.newLine){
 			mA.magnifiedView.computeSize();
 			
