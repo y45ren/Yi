@@ -40,7 +40,7 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 		// TODO Auto-generated method stub
 		if (isChecked){
 //			mA.noteLayout.setBackgroundColor(0xffcdc9c8);
-			//mA.anchorView.setAnimation(this.anchorBlink);
+			mA.anchorView.setAnimation(this.anchorBlink);
 		}else{
 			mA.noteLayout.setBackgroundColor(0);
 		}
