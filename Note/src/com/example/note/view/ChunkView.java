@@ -26,7 +26,6 @@ public class ChunkView extends View{
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		
 		chunk.draw(canvas, notesPaint);
 	}
 

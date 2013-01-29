@@ -66,6 +66,8 @@ public class MainActivity extends Activity{
 	 * components
 	 */
 	private Point setAnchorPoint;
+	private int screenWidth;
+	private int screenHeight;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,8 @@ public class MainActivity extends Activity{
         
         //conponent
         setAnchorPoint = new Point();
+        screenWidth = 0;
+        screenHeight = 0;
         
         noteLayout = (RelativeLayout)findViewById(R.id.notePanel);
         inkRegion = new ArrayList<InkRegion>();
@@ -119,6 +123,7 @@ public class MainActivity extends Activity{
     @Override
     public boolean onTouchEvent(MotionEvent event){
     	Point eventPoint = new Point((int)event.getX(),(int)event.getY());
+    	
     	if (!switchy.isChecked()){
     		// Non-magnify mode
     	switch(event.getActionMasked()){
@@ -268,15 +273,30 @@ public class MainActivity extends Activity{
             // TODO Auto-generated method stub  
             accelerometerValues=event.values;  
             if (accelerometerValues[2]<8.0){		//if the screen is not horizontal
+            	
             	magnifiedView.anchor.setRotate(accelerometerValues);
             	magnifiedView.postInvalidate();
             }
         }
     };
     
+//    Another way to keep contents when rotating the screen
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        // Read values from the "savedInstanceState"-object and put them in your textview
+//    }
+//
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        // Save the values you need from your textview into "outState"-object
+//        super.onSaveInstanceState(outState);
+//    }
+    
     protected void onPause() {
         super.onPause();
         sm.unregisterListener(myListener);
     }
+     
 
 }

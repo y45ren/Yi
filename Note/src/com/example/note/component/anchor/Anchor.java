@@ -240,4 +240,16 @@ public class Anchor {
 	public void setAnchorLen(int anchorLen) {
 		this.anchorLen = anchorLen;
 	}
+
+	public void moveX(int width) {
+		// TODO Auto-generated method stub
+		this.startPoint.offset((int)(width*Math.cos(this.angle)), (int)(width*Math.sin(this.angle)));
+	}
+
+	public void moveY(int width) {
+		// TODO Auto-generated method stub
+		moveX(-width);
+		System.out.println(width);
+		this.startPoint.offset(-(int)(this.anchorLen*2*Math.sin(this.angle)), (int)(this.anchorLen*2*Math.cos(this.angle)));
+	}
 }
