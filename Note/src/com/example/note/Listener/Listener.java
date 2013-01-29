@@ -9,22 +9,38 @@ import com.example.note.view.MagnifiedView;
 import android.graphics.Point;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.*;
 
 public class Listener implements CompoundButton.OnCheckedChangeListener, OnClickListener{
 	
 	MainActivity mA;
 	MultiStrokes newChunk;
+	
+	/**
+	 * animation 
+	 */
+	private Animation anchorBlink;
+	
+	
 	public Listener(MainActivity mainActivity) {
 		// TODO Auto-generated constructor stub
 		mA = mainActivity;
 		newChunk = new MultiStrokes();
+		
+		//animate anchor:
+        anchorBlink = new AlphaAnimation(1,0);
+        anchorBlink.setDuration(500);
+        anchorBlink.setRepeatCount(Animation.INFINITE);
+        anchorBlink.setRepeatMode(Animation.REVERSE);
 	}
 
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		// TODO Auto-generated method stub
 		if (isChecked){
 			mA.noteLayout.setBackgroundColor(0xffcdc9c8);
+			mA.anchorView.setAnimation(this.anchorBlink);
 		}else{
 			mA.noteLayout.setBackgroundColor(0);
 		}

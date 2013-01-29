@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.*;
@@ -74,10 +75,7 @@ public class MainActivity extends Activity{
 	private int screenWidth;
 	private int screenHeight;
 	
-	/**
-	 * animation 
-	 */
-	private Animation anchorBlink;
+
 	
 	
     @Override
@@ -131,6 +129,7 @@ public class MainActivity extends Activity{
         noteLayout.addView(canvasView);
         noteLayout.addView(magnifiedView);       
         noteLayout.addView(anchorView);
+
     }
     
     
