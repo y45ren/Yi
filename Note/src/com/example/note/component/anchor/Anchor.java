@@ -25,6 +25,7 @@ public class Anchor {
 	private int anchorLen = 20;
 	final int lineLen = 150;
 	final int anchorRange = 40;
+	private boolean redCross = false;
 
 	public Anchor(Point point) {
 		// TODO Auto-generated constructor stub
@@ -84,7 +85,7 @@ public class Anchor {
 		return multiStrokes;
 	}
 	
-	public void draw(Canvas c, boolean redCross){
+	public void draw(Canvas c){
 		if (redCross){
 			generateCrossLine().draw(c, crossLinePaint);
 		}
@@ -264,5 +265,12 @@ public class Anchor {
 		moveX(-width);
 		System.out.println(width);
 		this.startPoint.offset(-(int)(this.anchorLen*2*Math.sin(this.angle)), (int)(this.anchorLen*2*Math.cos(this.angle)));
+	}
+
+
+	public void setRedCross(boolean b) {
+		// TODO Auto-generated method stub
+		this.redCross = b;
+		System.out.println("adsfadsfdsf"+this.redCross);
 	}
 }

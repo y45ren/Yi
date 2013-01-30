@@ -49,8 +49,8 @@ public class MagnifiedView extends CanvasView{
 	public void onDraw(Canvas c){
 		super.onDraw(c);
 		computeSize();
-		System.out.println("MaginfView draw CALLED!!!");
-		c.drawLine(minX, minY, maxX, maxY, notesPaint);
+		//System.out.println("MaginfView draw CALLED!!!");
+//		c.drawLine(minX, minY, maxX, maxY, notesPaint);
 		//draw large strokes
 		largeStrokes.draw(c, notesPaint);
 	}

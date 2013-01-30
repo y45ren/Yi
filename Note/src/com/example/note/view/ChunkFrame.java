@@ -18,7 +18,7 @@ public class ChunkFrame extends LinearLayout{
 	public ChunkFrame(Context context, MultiStrokes newChunk){
 		super(context);
 		chunkView = new ChunkView(context, newChunk);
-		this.setBackgroundColor(Color.GRAY);
+		//this.setBackgroundColor(Color.GRAY);
 	}
 
 	public void addChunk(MultiStrokes newChunk, Point pivotPoint,

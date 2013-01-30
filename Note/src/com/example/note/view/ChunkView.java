@@ -15,7 +15,7 @@ public class ChunkView extends View{
 	public ChunkView(Context context, MultiStrokes chunk) {
 		super(context);
 		// TODO Auto-generated constructor stub
-		this.setBackgroundColor(Color.GREEN);
+		//this.setBackgroundColor(Color.GREEN);
 		notesPaint = MyPaint.createPaint(Color.BLACK, 4);
 		this.chunk = new MultiStrokes();
 		this.chunk.copyChunk(chunk);
@@ -27,7 +27,7 @@ public class ChunkView extends View{
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		chunk.draw(canvas, notesPaint);
-		System.out.println("chunkView draw CALLED!!!");
+		//System.out.println("chunkView draw CALLED!!!");
 	}
 
 	public void addChunk(MultiStrokes newChunk) {

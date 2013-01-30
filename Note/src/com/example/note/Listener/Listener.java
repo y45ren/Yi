@@ -41,8 +41,13 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 		if (isChecked){
 //			mA.noteLayout.setBackgroundColor(0xffcdc9c8);
 			mA.anchorView.setAnimation(this.anchorBlink);
+			mA.next.setClickable(true);
+			mA.newLine.setClickable(true);
 		}else{
-			mA.noteLayout.setBackgroundColor(0);
+//			mA.noteLayout.setBackgroundColor(0);
+			mA.anchorView.clearAnimation();
+			mA.next.setClickable(false);
+			mA.newLine.setClickable(false);
 		}
 	}
 

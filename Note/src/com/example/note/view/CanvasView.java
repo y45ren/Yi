@@ -62,7 +62,7 @@ public class CanvasView extends View{
 	@Override
 	public void onDraw(Canvas c){
 		super.onDraw(c);
-		System.out.println("canvasView draw CALLED!!!");
+		//System.out.println("canvasView draw CALLED!!!");
 		//draw large strokes
 		largeStrokes.draw(c, notesPaint);
 	}

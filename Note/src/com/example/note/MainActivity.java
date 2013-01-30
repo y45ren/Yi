@@ -40,8 +40,8 @@ public class MainActivity extends Activity{
 	 */
 	private CanvasView canvasView;
 	private Switch switchy;
-	private Button next;
-	private Button newLine;
+	public Button next;
+	public Button newLine;
 	public RelativeLayout noteLayout;
 	public MagnifiedView magnifiedView;
 	public AnchorView anchorView;
@@ -213,6 +213,7 @@ public class MainActivity extends Activity{
 					break;
 				case LOCATINGANCHOR:
 					status = Status.WRITING;
+					anchorView.anchor.setRedCross(false);
 					sm.unregisterListener(myListener);
 					
 					if (inkRegion.size()!=0 && inkRegion.get(inkRegion.size()-1).chunkLine.size()==0){
@@ -222,12 +223,11 @@ public class MainActivity extends Activity{
 					inkRegion.add(new InkRegion(this, anchorView.anchor.getAnchorLen(), 
 							anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
 					this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),inkRegion.get(inkRegion.size()-1).params);
-					inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);	
+					//inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);	
 				
 					break;
 				case SCALINGANCHOR:
 					status = Status.WRITING;
-
 					if (inkRegion.size()!=0 && inkRegion.get(inkRegion.size()-1).chunkLine.size()==0){
 						noteLayout.removeView(inkRegion.get(inkRegion.size()-1));
 						inkRegion.remove(inkRegion.size()-1);						
@@ -235,7 +235,7 @@ public class MainActivity extends Activity{
 					inkRegion.add(new InkRegion(this, anchorView.anchor.getAnchorLen(), 
 							anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
 					this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),inkRegion.get(inkRegion.size()-1).params);
-					inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);
+					//inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);
 					
 					magnifiedView.invalidate();
 					break;
@@ -269,6 +269,7 @@ public class MainActivity extends Activity{
 				if (!anchorView.anchor.onAnchor(eventPoint)){
 					status = Status.LOCATINGANCHOR;
 					anchorView.anchor.setPoint(eventPoint);
+					anchorView.anchor.setRedCross(true);
 					sm.registerListener(myListener, aSensor, SensorManager.SENSOR_DELAY_GAME);
 				}else{
 					status = Status.SCALINGANCHOR;
