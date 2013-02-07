@@ -1,10 +1,13 @@
 package com.example.note.view;
 
+import com.example.note.component.MyPaint;
 import com.example.note.component.Stroke;
 import com.example.note.component.anchor.Anchor;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -19,6 +22,7 @@ public class MagnifiedView extends CanvasView{
 	public int minY;
 	public int maxX;
 	public int maxY;
+	protected Paint notesPaint;
 	
 	/**
 	 * attributes
@@ -30,7 +34,7 @@ public class MagnifiedView extends CanvasView{
 	public MagnifiedView(Context context) {
 		
 		super(context);
-		
+		notesPaint = MyPaint.createPaint(Color.BLACK, 8);
 		minX=4000;
 		minY=4000;
 		maxX=0;

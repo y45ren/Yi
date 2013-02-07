@@ -32,6 +32,7 @@ public class ChunkFrame extends LinearLayout{
 		
 		chunkView.setPivotX(pivotPoint.x);
         chunkView.setPivotY(pivotPoint.y);
+        chunkView.setScale(scale);
         
         chunkView.setScaleX((float) scale);
         chunkView.setScaleY((float) scale);

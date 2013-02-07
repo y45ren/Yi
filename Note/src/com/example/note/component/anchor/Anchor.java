@@ -99,7 +99,8 @@ public class Anchor {
 	 */
 	public void setRotate(float[] rotate) {
 		try {
-			setAngle((float) filter.filter(Math.atan2(rotate[0], rotate[1])));
+			//setAngle((float) filter.filter(Math.atan2(rotate[0], rotate[1])));
+			setAngle((float) filter.filter(-Math.atan2(rotate[1], rotate[0])));
 			if (Math.abs(getAngle()-getWantedAngle())<=0.175){
 				setAngle(getWantedAngle());
 			}

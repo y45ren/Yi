@@ -136,10 +136,14 @@ public class MainActivity extends Activity{
     @Override
     public boolean onTouchEvent(MotionEvent event){
     	Point eventPoint = new Point((int)event.getX(),(int)event.getY());
-    	
+    	int action = event.getAction();
+    	int actionCode = action & MotionEvent.ACTION_MASK;
+//    	System.out.println("NUB ERVMERV: "+event.getActionIndex());
+//    	System.out.println("dfdetdfg: "+event.getPointerCount());
+ 
     	if (!switchy.isChecked()){
     		// Non-magnify mode
-    	switch(event.getActionMasked()){
+    	switch(actionCode){
 			case MotionEvent.ACTION_DOWN:
 				canvasView.largeStrokes.addStroke(eventPoint);
 				canvasView.invalidate();			
@@ -159,7 +163,7 @@ public class MainActivity extends Activity{
 			}
     	}else{
     		// Magnify mode
-    		switch(event.getActionMasked()){
+    		switch(actionCode){
 			case MotionEvent.ACTION_DOWN:
 				
 				switch(status){
@@ -170,11 +174,11 @@ public class MainActivity extends Activity{
 					break;
 				case LOCATINGANCHOR:
 					anchorView.anchor.setPoint(eventPoint);
-					magnifiedView.invalidate();
+					anchorView.invalidate();
 					break;
 				case SCALINGANCHOR:
 					anchorView.anchor.setAnchorLen(eventPoint);
-					magnifiedView.invalidate();
+					anchorView.invalidate();
 					break;
 				}
 				startAnchorTimer(eventPoint);
@@ -195,11 +199,11 @@ public class MainActivity extends Activity{
 					break;
 				case LOCATINGANCHOR:
 					anchorView.anchor.setPoint(eventPoint);
-					magnifiedView.invalidate();
+					anchorView.invalidate();
 					break;
 				case SCALINGANCHOR:
 					anchorView.anchor.setAnchorLen(eventPoint);
-					magnifiedView.invalidate();
+					anchorView.invalidate();
 					break;
 				}	
 				break;
@@ -222,6 +226,7 @@ public class MainActivity extends Activity{
 					}
 					inkRegion.add(new InkRegion(this, anchorView.anchor.getAnchorLen(), 
 							anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
+					
 					this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),inkRegion.get(inkRegion.size()-1).params);
 					//inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);	
 				
@@ -236,8 +241,7 @@ public class MainActivity extends Activity{
 							anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
 					this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),inkRegion.get(inkRegion.size()-1).params);
 					//inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);
-					
-					magnifiedView.invalidate();
+					anchorView.invalidate();
 					break;
 				}	
 				break;
@@ -274,7 +278,7 @@ public class MainActivity extends Activity{
 				}else{
 					status = Status.SCALINGANCHOR;
 				} 
-				magnifiedView.postInvalidate();
+				anchorView.postInvalidate();
 			}
 		}, activeTime);
 	}

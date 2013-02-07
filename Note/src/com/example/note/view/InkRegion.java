@@ -25,7 +25,7 @@ public class InkRegion extends LinearLayout{
 		setLineWidth(0);
 		setLineHeight(2*h);
 		chunkLine = new ArrayList<ChunkLine>();
-		
+		addInitialLine();
 		params = new RelativeLayout.LayoutParams(0, 2*h);
 //		params = new RelativeLayout.LayoutParams(500, 500);
 		params.leftMargin = sP.x;
@@ -55,7 +55,7 @@ public class InkRegion extends LinearLayout{
 			chunkLine.add(new ChunkLine(getContext(), params));
 			this.addView(chunkLine.get(0), chunkLine.get(0).params);
 		}
-		
+		System.out.println("in Region, chunk is: " +chunkLine.size());
 		chunkLine.get(chunkLine.size()-1).addChunk(newChunk, pivotPoint, endPoint, scale, width, this.getLineHeight());
 		
 	}
@@ -73,7 +73,15 @@ public class InkRegion extends LinearLayout{
 		this.addView(chunkLine.get(chunkLine.size()-1), chunkLine.get(chunkLine.size()-1).params);
 		setLineWidth(0);
 	}
+	public void addInitialLine() {
+		// TODO Auto-generated method stub
+		LayoutParams params = new LinearLayout.LayoutParams(
+				0, getLineHeight());
 
+		chunkLine.add(new ChunkLine(getContext(), params));
+		this.addView(chunkLine.get(chunkLine.size()-1), chunkLine.get(chunkLine.size()-1).params);
+		setLineWidth(0);
+	}
 
 	/**
 	 * @return the lineWidth

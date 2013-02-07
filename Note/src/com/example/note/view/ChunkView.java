@@ -12,11 +12,13 @@ import android.view.View;
 public class ChunkView extends View{
 	private MultiStrokes chunk;
 	private Paint notesPaint;
+	private double scale;
+	
 	public ChunkView(Context context, MultiStrokes chunk) {
 		super(context);
 		// TODO Auto-generated constructor stub
 		//this.setBackgroundColor(Color.GREEN);
-		notesPaint = MyPaint.createPaint(Color.BLACK, 4);
+		
 		this.chunk = new MultiStrokes();
 		this.chunk.copyChunk(chunk);
 		
@@ -26,6 +28,8 @@ public class ChunkView extends View{
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		int thickness = (int) (8/scale-1);
+		notesPaint = MyPaint.createPaint(Color.BLACK, 8);
 		chunk.draw(canvas, notesPaint);
 		//System.out.println("chunkView draw CALLED!!!");
 	}
@@ -33,5 +37,10 @@ public class ChunkView extends View{
 	public void addChunk(MultiStrokes newChunk) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setScale(double scale) {
+		// TODO Auto-generated method stub
+		this.scale = scale;
 	}
 }

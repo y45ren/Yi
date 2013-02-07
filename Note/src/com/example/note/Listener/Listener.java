@@ -75,12 +75,14 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 			
 			newChunk = new MultiStrokes();
 			newChunk.copyChunk(mA.magnifiedView.largeStrokes);
-			mA.inkRegion.get(regionIndex).addLine();		
-			mA.anchorView.anchor.moveY(mA.inkRegion.get(regionIndex).chunkLine.get(mA.inkRegion.get(regionIndex).chunkLine.size()-2).params.width);
+			mA.inkRegion.get(regionIndex).addLine();
+			int chunkIndex = mA.inkRegion.get(regionIndex).chunkLine.size();
+
+			mA.anchorView.anchor.moveY(mA.inkRegion.get(regionIndex).chunkLine.get(chunkIndex-2).params.width);
 		}
 		mA.magnifiedView.clear();
-		mA.magnifiedView.invalidate();
-		
+		mA.anchorView.invalidate();
+		mA.magnifiedView.invalidate();		
 	}
 
 }

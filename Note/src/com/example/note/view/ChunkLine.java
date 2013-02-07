@@ -21,7 +21,7 @@ public class ChunkLine extends LinearLayout{
 		this.setOrientation(HORIZONTAL);
 		chunkFrame = new ArrayList<ChunkFrame>();
 		this.params = new LayoutParams(params);
-		//this.setBackgroundColor(Color.YELLOW);
+		this.setBackgroundColor(Color.YELLOW);
 	}
 
 	public void addChunk(MultiStrokes newChunk, Point pivotPoint, Point endPoint, double scale, int width, int regionHeight) {
