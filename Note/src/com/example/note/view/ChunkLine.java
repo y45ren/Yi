@@ -42,7 +42,7 @@ public class ChunkLine extends LinearLayout{
 //		childParams.bottomMargin = (int) ((endPoint.y-pivotPoint.y));
         
 		this.addView(chunkFrame.get(chunkFrame.size()-1),childParams);
-
+		
 		this.params.width += width;
 		System.out.println("a: "+(int)width+"b: "+this.params.width);
 	}

@@ -23,7 +23,7 @@ public class InkRegion extends LinearLayout{
 	public InkRegion(Context context, int h, Point sP, float angle) {
 		super(context);
 		this.setOrientation(VERTICAL);
-		startPoint = new Point(sP.x,sP.y);
+		startPoint = new Point(sP.x,sP.y-2*h);
 		this.setAngle(angle);
 		setLineWidth(0);
 		setLineHeight(2*h);
@@ -32,10 +32,10 @@ public class InkRegion extends LinearLayout{
 		lastPosition = new Point();
 		params = new RelativeLayout.LayoutParams(0, 2*h);
 //		params = new RelativeLayout.LayoutParams(500, 500);
-		params.leftMargin = sP.x;
-        params.topMargin = sP.y-h;
+		params.leftMargin = startPoint.x;
+        params.topMargin = startPoint.y;
         this.setPivotX(0);
-        this.setPivotY(h);
+        this.setPivotY(0);
         this.setRotation(angle);
 	}
 
@@ -60,7 +60,7 @@ public class InkRegion extends LinearLayout{
 			this.addView(chunkLine.get(0), chunkLine.get(0).params);
 		}
 		System.out.println("in Region, chunk is: " +chunkLine.size());
-		chunkLine.get(chunkLine.size()-1).addChunk(newChunk, pivotPoint, endPoint, scale, width, this.getLineHeight());
+		chunkLine.peekLast().addChunk(newChunk, pivotPoint, endPoint, scale, width, this.getLineHeight());
 	}
 	
 
@@ -87,14 +87,12 @@ public class InkRegion extends LinearLayout{
 	}
 
 	public Point generateLastPosition(){
-		Point temp = new Point(this.chunkLine.peekLast().getRight(), this.chunkLine.peekLast().getBottom());
+		System.out.println("chunkLine has: "+this.chunkLine.peekLast().chunkFrame.size());
+		System.out.println("in undo: "+this.chunkLine.peekLast().getRight()+", "+ this.chunkLine.peekLast().getBottom());
+		Point temp = new Point(this.chunkLine.peekLast().params.width, this.chunkLine.size()*this.lineHeight);
 		double sin = Math.sin(Math.toRadians(angle));
 		double cos = Math.cos(Math.toRadians(angle));
-		System.out.println(sin+", "+cos);
-		//System.out.println(Math.sin(Math.toRadians(angle))+", "+cos);
-//		Point temp = new Point(400,0);
 		lastPosition.set(startPoint.x+(int)(temp.x*cos-temp.y*sin), startPoint.y+(int)(temp.x*sin+temp.y*cos));
-//		lastPosition.set((int)(temp.x*cos-temp.y*sin), (int)(temp.x*sin+temp.y*cos));
 		return this.lastPosition;
 	}
 	/**
@@ -131,7 +129,7 @@ public class InkRegion extends LinearLayout{
 
 	public void undo() {
 		// TODO Auto-generated method stub
-		System.out.println(this.chunkLine.size()+" "+this.chunkLine.peekLast().chunkFrame.size());
+		
 		if (chunkLine.size()==1&&chunkLine.peekLast().chunkFrame.size()==0){
 			
 		}else if (chunkLine.peekLast().chunkFrame.size() == 0){

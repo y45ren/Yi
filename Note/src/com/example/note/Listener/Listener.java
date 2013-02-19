@@ -67,10 +67,12 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 			//System.out.println(width+" sd  "+ (mA.magnifiedView.maxY - mA.magnifiedView.minY)+"  scale:"+scale);
 			if (mA.magnifiedView.largeStrokes.chunk.size()!=0){
 				mA.inkRegion.get(regionIndex).addChunk(newChunk, pivotPoint, endPoint, scale, width);
+
 				mA.anchorView.anchor.setPoint(mA.inkRegion.peekLast().generateLastPosition());
 				//mA.anchorView.anchor.moveX(width);
 			}
-			
+			System.out.println("!!!"+mA.anchorView.anchor.getPoint()+",  "+mA.inkRegion.peekLast().generateLastPosition());
+			System.out.println("!!!"+mA.inkRegion.peekLast().chunkLine.size()+", "+mA.inkRegion.peekLast().chunkLine.peekLast().chunkFrame.size());
 			mA.magnifiedView.clear();
 			mA.anchorView.invalidate();
 			mA.magnifiedView.invalidate();	
@@ -133,8 +135,9 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 		}
 		
 		if (v.getId()==R.id.erase){
-			System.out.println(mA.inkRegion.peekLast().generateLastPosition()+", "+mA.inkRegion.peekLast().getAngle());
-			
+			System.out.println(mA.anchorView.anchor.getPoint()+",  "+mA.inkRegion.peekLast().generateLastPosition());
+			System.out.println(mA.inkRegion.peekLast().chunkLine.size()+", "+mA.inkRegion.peekLast().chunkLine.peekLast().chunkFrame.size());
+			mA.anchorView.anchor.setPoint(mA.inkRegion.peekLast().generateLastPosition());
 		}
 			
 	}

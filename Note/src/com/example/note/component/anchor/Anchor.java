@@ -64,14 +64,14 @@ public class Anchor {
 
 	public Stroke generateAnchor(){
 		Stroke stroke = new Stroke();
-		stroke.addPoint(rotatePoint((new Point(startPoint.x, startPoint.y-getAnchorLen()))));
-		stroke.addPoint(rotatePoint((new Point(startPoint.x, startPoint.y+getAnchorLen()))));
+		stroke.addPoint(rotatePoint((new Point(startPoint.x, startPoint.y))));
+		stroke.addPoint(rotatePoint((new Point(startPoint.x, startPoint.y-2*getAnchorLen()))));
 		return stroke;
 	}
 	public Stroke generateLine(){
 		Stroke stroke = new Stroke();
-		stroke.addPoint(rotatePoint(new Point(startPoint.x, startPoint.y+getAnchorLen())));
-		stroke.addPoint(rotatePoint(new Point(startPoint.x+lineLen, startPoint.y+getAnchorLen())));
+		stroke.addPoint(rotatePoint(new Point(startPoint.x, startPoint.y)));
+		stroke.addPoint(rotatePoint(new Point(startPoint.x+lineLen, startPoint.y)));
 
 		return stroke;
 	}
