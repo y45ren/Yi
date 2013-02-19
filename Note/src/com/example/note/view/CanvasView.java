@@ -67,7 +67,12 @@ public class CanvasView extends View{
 		largeStrokes.draw(c, notesPaint);
 	}
 	
-
+	public void undo(){
+		if (!this.largeStrokes.isEmpty()){
+			largeStrokes.chunk.removeLast();
+		}
+		this.invalidate();
+	}
     
 
 }

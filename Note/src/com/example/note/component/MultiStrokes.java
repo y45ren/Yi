@@ -1,6 +1,6 @@
 package com.example.note.component;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -8,19 +8,19 @@ import android.graphics.Point;
 
 public class MultiStrokes {
 	
-	public ArrayList<Stroke> chunk;
+	public LinkedList<Stroke> chunk;
 	
 	public MultiStrokes() {
 		// TODO Auto-generated constructor stub
 
-		chunk = new ArrayList<Stroke>();
+		chunk = new LinkedList<Stroke>();
 	}
 
 
 	public MultiStrokes(MultiStrokes chunk2) {
 		// TODO Auto-generated constructor stub
 
-		chunk = new ArrayList<Stroke>();
+		chunk = new LinkedList<Stroke>();
 		for (Stroke stroke: chunk2.chunk){
 			chunk.add(new Stroke(stroke));
 		}
@@ -28,7 +28,7 @@ public class MultiStrokes {
 	
 	public void copyChunk(MultiStrokes chunk2){
 
-		chunk = new ArrayList<Stroke>();
+		chunk = new LinkedList<Stroke>();
 		for (Stroke stroke: chunk2.chunk){
 			chunk.add(new Stroke(stroke));
 		}
@@ -80,5 +80,12 @@ public class MultiStrokes {
 		}
 		
 	}
+
+
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return chunk.isEmpty();
+	}
+
 	
 }

@@ -84,6 +84,11 @@ public class MagnifiedView extends CanvasView{
 		maxX=0;
 		maxY=0;
 	}
-    
+	
+	@Override
+    public void undo(){
+    	super.undo();
+    }
+
 
 }

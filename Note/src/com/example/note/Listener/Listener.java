@@ -3,6 +3,7 @@ package com.example.note.Listener;
 import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.component.MultiStrokes;
+import com.example.note.component.Status;
 import com.example.note.view.ChunkLine;
 import com.example.note.view.MagnifiedView;
 
@@ -54,6 +55,7 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		
+		if (v.getId()==R.id.next){
 			mA.magnifiedView.computeSize();
 			newChunk = new MultiStrokes();
 			newChunk.copyChunk(mA.magnifiedView.largeStrokes);
@@ -65,12 +67,33 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 			//System.out.println(width+" sd  "+ (mA.magnifiedView.maxY - mA.magnifiedView.minY)+"  scale:"+scale);
 			if (mA.magnifiedView.largeStrokes.chunk.size()!=0){
 				mA.inkRegion.get(regionIndex).addChunk(newChunk, pivotPoint, endPoint, scale, width);
-				mA.anchorView.anchor.moveX(width);
+				mA.anchorView.anchor.setPoint(mA.inkRegion.peekLast().generateLastPosition());
+				//mA.anchorView.anchor.moveX(width);
 			}
 			
-			//move anchor
+			mA.magnifiedView.clear();
+			mA.anchorView.invalidate();
+			mA.magnifiedView.invalidate();	
+		}
+			
+		
 			
 		if (v.getId()==R.id.newLine){
+			mA.magnifiedView.computeSize();
+			newChunk = new MultiStrokes();
+			newChunk.copyChunk(mA.magnifiedView.largeStrokes);
+			int regionIndex = mA.inkRegion.size()-1;
+			Point pivotPoint = new Point(mA.magnifiedView.minX, mA.magnifiedView.minY);
+			Point endPoint = new Point(mA.magnifiedView.maxX, mA.magnifiedView.maxY);
+			double scale = (double)mA.inkRegion.get(regionIndex).getLineHeight() / (double)(mA.magnifiedView.maxY - mA.magnifiedView.minY);
+			int width = (int) (scale * (mA.magnifiedView.maxX - mA.magnifiedView.minX));
+			//System.out.println(width+" sd  "+ (mA.magnifiedView.maxY - mA.magnifiedView.minY)+"  scale:"+scale);
+			if (mA.magnifiedView.largeStrokes.chunk.size()!=0){
+				mA.inkRegion.get(regionIndex).addChunk(newChunk, pivotPoint, endPoint, scale, width);
+				//mA.anchorView.anchor.setPoint(mA.inkRegion.peekLast().generateLastPosition());
+			}
+			
+			
 			mA.magnifiedView.computeSize();
 			
 			newChunk = new MultiStrokes();
@@ -78,11 +101,42 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 			mA.inkRegion.get(regionIndex).addLine();
 			int chunkIndex = mA.inkRegion.get(regionIndex).chunkLine.size();
 
-			mA.anchorView.anchor.moveY(mA.inkRegion.get(regionIndex).chunkLine.get(chunkIndex-2).params.width);
+			mA.anchorView.anchor.setPoint(mA.inkRegion.peekLast().generateLastPosition());
+			
+			mA.magnifiedView.clear();
+			mA.anchorView.invalidate();
+			mA.magnifiedView.invalidate();
 		}
-		mA.magnifiedView.clear();
-		mA.anchorView.invalidate();
-		mA.magnifiedView.invalidate();		
+		
+		if (v.getId()==R.id.undo){
+			//in magnified mod
+			
+			if (mA.switchy.isChecked()){
+				//not crrently drawing 
+				if (mA.magnifiedView.largeStrokes.isEmpty()){
+					try{
+						mA.inkRegion.peekLast().undo();
+						mA.anchorView.invalidate();
+						mA.magnifiedView.invalidate();	
+					}catch(Exception e){
+						
+					}
+				}
+				//writing
+				else{
+					mA.magnifiedView.undo();
+				}
+			}//non magnified mod
+			else{
+				mA.canvasView.undo();
+			}
+		}
+		
+		if (v.getId()==R.id.erase){
+			System.out.println(mA.inkRegion.peekLast().generateLastPosition()+", "+mA.inkRegion.peekLast().getAngle());
+			
+		}
+			
 	}
 
 }

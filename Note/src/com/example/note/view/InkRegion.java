@@ -1,6 +1,6 @@
 package com.example.note.view;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.example.note.component.MultiStrokes;
 
@@ -15,17 +15,21 @@ public class InkRegion extends LinearLayout{
 	private int lineWidth;
 	private int lineHeight;
 	private Point startPoint;
+	private float angle;
 	public RelativeLayout.LayoutParams params;
-	public ArrayList<ChunkLine> chunkLine;
+	public LinkedList<ChunkLine> chunkLine;
+	public Point lastPosition;
 	
 	public InkRegion(Context context, int h, Point sP, float angle) {
 		super(context);
 		this.setOrientation(VERTICAL);
 		startPoint = new Point(sP.x,sP.y);
+		this.setAngle(angle);
 		setLineWidth(0);
 		setLineHeight(2*h);
-		chunkLine = new ArrayList<ChunkLine>();
+		chunkLine = new LinkedList<ChunkLine>();
 		addInitialLine();
+		lastPosition = new Point();
 		params = new RelativeLayout.LayoutParams(0, 2*h);
 //		params = new RelativeLayout.LayoutParams(500, 500);
 		params.leftMargin = sP.x;
@@ -57,7 +61,6 @@ public class InkRegion extends LinearLayout{
 		}
 		System.out.println("in Region, chunk is: " +chunkLine.size());
 		chunkLine.get(chunkLine.size()-1).addChunk(newChunk, pivotPoint, endPoint, scale, width, this.getLineHeight());
-		
 	}
 	
 
@@ -83,6 +86,17 @@ public class InkRegion extends LinearLayout{
 		setLineWidth(0);
 	}
 
+	public Point generateLastPosition(){
+		Point temp = new Point(this.chunkLine.peekLast().getRight(), this.chunkLine.peekLast().getBottom());
+		double sin = Math.sin(Math.toRadians(angle));
+		double cos = Math.cos(Math.toRadians(angle));
+		System.out.println(sin+", "+cos);
+		//System.out.println(Math.sin(Math.toRadians(angle))+", "+cos);
+//		Point temp = new Point(400,0);
+		lastPosition.set(startPoint.x+(int)(temp.x*cos-temp.y*sin), startPoint.y+(int)(temp.x*sin+temp.y*cos));
+//		lastPosition.set((int)(temp.x*cos-temp.y*sin), (int)(temp.x*sin+temp.y*cos));
+		return this.lastPosition;
+	}
 	/**
 	 * @return the lineWidth
 	 */
@@ -112,6 +126,35 @@ public class InkRegion extends LinearLayout{
 	 */
 	public void setLineHeight(int lineHeight) {
 		this.lineHeight = lineHeight;
+	}
+
+
+	public void undo() {
+		// TODO Auto-generated method stub
+		System.out.println(this.chunkLine.size()+" "+this.chunkLine.peekLast().chunkFrame.size());
+		if (chunkLine.size()==1&&chunkLine.peekLast().chunkFrame.size()==0){
+			
+		}else if (chunkLine.peekLast().chunkFrame.size() == 0){
+			this.removeView(this.chunkLine.pollLast());
+		}else {
+			chunkLine.peekLast().undo();
+		}
+	}
+
+
+	/**
+	 * @return the angle
+	 */
+	public float getAngle() {
+		return angle;
+	}
+
+
+	/**
+	 * @param angle the angle to set
+	 */
+	public void setAngle(float angle) {
+		this.angle = angle;
 	}
 
 

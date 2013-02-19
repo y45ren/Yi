@@ -1,6 +1,7 @@
 package com.example.note;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,14 +39,16 @@ public class MainActivity extends Activity{
 	/**
 	 * views
 	 */
-	private CanvasView canvasView;
-	private Switch switchy;
+	public CanvasView canvasView;
+	public Switch switchy;
 	public Button next;
 	public Button newLine;
+	public Button undo;
+	public Button erase;
 	public RelativeLayout noteLayout;
 	public MagnifiedView magnifiedView;
 	public AnchorView anchorView;
-	public ArrayList<InkRegion> inkRegion;
+	public LinkedList<InkRegion> inkRegion;
 	/**
 	 * sensors and timers
 	 */
@@ -103,7 +106,7 @@ public class MainActivity extends Activity{
         screenHeight = 0;
         
         noteLayout = (RelativeLayout)findViewById(R.id.notePanel);
-        inkRegion = new ArrayList<InkRegion>();
+        inkRegion = new LinkedList<InkRegion>();
         new MultiStrokes();
         canvasView = new CanvasView(this);
         magnifiedView = new MagnifiedView(this);
@@ -124,6 +127,12 @@ public class MainActivity extends Activity{
         newLine = new Button(this);
         newLine = (Button)findViewById(R.id.newLine);
         newLine.setOnClickListener(listener);
+        undo = new Button(this);
+        undo = (Button)findViewById(R.id.undo);
+        undo.setOnClickListener(listener);
+        erase = new Button(this);
+        erase = (Button)findViewById(R.id.erase);
+        erase.setOnClickListener(listener);
         
         //noteLayout.addView(canvasView);
         noteLayout.addView(canvasView);

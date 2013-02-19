@@ -39,4 +39,9 @@ public class ChunkFrame extends LinearLayout{
         
         this.addView(chunkView,childParams);
 	}
+
+	public void undo() {
+		// TODO Auto-generated method stub
+		this.removeAllViews();
+	}
 }

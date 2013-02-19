@@ -1,6 +1,6 @@
 package com.example.note.view;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.example.note.component.MultiStrokes;
 
@@ -12,14 +12,14 @@ import android.widget.LinearLayout.LayoutParams;
 
 public class ChunkLine extends LinearLayout{
 
-	private ArrayList<ChunkFrame> chunkFrame;
+	public LinkedList<ChunkFrame> chunkFrame;
 	public LayoutParams params;
 	
 	public ChunkLine(Context context, LayoutParams params) {
 		super(context);
 		// TODO Auto-generated constructor stub
 		this.setOrientation(HORIZONTAL);
-		chunkFrame = new ArrayList<ChunkFrame>();
+		chunkFrame = new LinkedList<ChunkFrame>();
 		this.params = new LayoutParams(params);
 		this.setBackgroundColor(Color.YELLOW);
 	}
@@ -45,6 +45,12 @@ public class ChunkLine extends LinearLayout{
 
 		this.params.width += width;
 		System.out.println("a: "+(int)width+"b: "+this.params.width);
+	}
+
+	public void undo() {
+		// TODO Auto-generated method stub
+		this.chunkFrame.peekLast().undo();
+		this.removeView(this.chunkFrame.pollLast());
 	}
 	
 }
