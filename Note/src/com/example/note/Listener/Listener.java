@@ -23,7 +23,6 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 	/**
 	 * animation 
 	 */
-	private Animation anchorBlink;
 	
 	
 	public Listener(MainActivity mainActivity) {
@@ -31,24 +30,21 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 		mA = mainActivity;
 		newChunk = new MultiStrokes();
 		
-		//animate anchor:
-        anchorBlink = new AlphaAnimation(1,0);
-        anchorBlink.setDuration(360);
-        anchorBlink.setRepeatCount(Animation.INFINITE);
-        anchorBlink.setRepeatMode(Animation.REVERSE);
+
+        
 	}
 
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		// TODO Auto-generated method stub
 		if (isChecked){
 //			mA.noteLayout.setBackgroundColor(0xffcdc9c8);
-			mA.anchorView.setAnimation(this.anchorBlink);
-			this.anchorBlink.start();
+			mA.anchorView.startAnimation();
 			mA.next.setClickable(true);
 			mA.newLine.setClickable(true);
 		}else{
 //			mA.noteLayout.setBackgroundColor(0);
-			mA.anchorView.clearAnimation();
+			mA.anchorView.pauseAnimation();
+			mA.magnifiedView.clear();
 			mA.next.setClickable(false);
 			mA.newLine.setClickable(false);
 		}

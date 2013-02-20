@@ -51,7 +51,7 @@ public class CanvasView extends View{
 		largeStrokes = new MultiStrokes();
 		//paints
 		chunkPaint = MyPaint.createPaint(Color.BLACK, 8);
-		notesPaint = MyPaint.createPaint(Color.BLACK, 8);
+		notesPaint = MyPaint.createPaint(Color.BLACK, 6);
 		framePaint = MyPaint.createPaint(Color.GREEN, 2);
 		debugPaint = MyPaint.createPaint(Color.RED, 2);
 		

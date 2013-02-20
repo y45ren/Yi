@@ -9,15 +9,27 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
 public class AnchorView extends View{
 
 	public Anchor anchor;
+	private Animation anchorBlink;
 	
 	public AnchorView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
 		anchor = new Anchor(new Point(300,200));
+		//animate anchor:
+        anchorBlink = new AlphaAnimation(1,0);
+        anchorBlink.setDuration(360);
+        anchorBlink.setRepeatCount(Animation.INFINITE);
+        anchorBlink.setRepeatMode(Animation.REVERSE);
+        this.setAnimation(anchorBlink);
+       
+        this.startAnimation();
+        this.pauseAnimation();
 	}
 	@Override
 	public void onSizeChanged(int w,int h,int ow, int oh){
@@ -49,4 +61,14 @@ public class AnchorView extends View{
             }
         }
     };
+
+	public void startAnimation() {
+		// TODO Auto-generated method stub
+		this.anchorBlink.startNow();
+	}
+	public void pauseAnimation() {
+		// TODO Auto-generated method stub
+		this.anchorBlink.cancel();
+		this.anchorBlink.reset();
+	}
 }
