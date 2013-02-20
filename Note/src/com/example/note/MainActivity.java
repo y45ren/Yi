@@ -113,9 +113,7 @@ public class MainActivity extends Activity{
         
         anchorView = new AnchorView(this);
         
-        inkRegion.add(new InkRegion(this, anchorView.anchor.getAnchorLen(), 
-				anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
-		this.noteLayout.addView(inkRegion.get(0),inkRegion.get(0).params);
+        initiateInkRegion();
         
         switchy = new Switch(this);
         switchy = (Switch)findViewById(R.id.switch1);
@@ -142,7 +140,15 @@ public class MainActivity extends Activity{
     }
     
     
-    @Override
+    public void initiateInkRegion() {
+		// TODO Auto-generated method stub
+    	inkRegion.add(new InkRegion(this, anchorView.anchor.getAnchorLen(), 
+				anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
+		this.noteLayout.addView(inkRegion.get(0),inkRegion.get(0).params);
+	}
+
+
+	@Override
     public boolean onTouchEvent(MotionEvent event){
     	Point eventPoint = new Point((int)event.getX(),(int)event.getY());
     	int action = event.getAction();

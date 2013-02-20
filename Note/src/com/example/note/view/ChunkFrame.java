@@ -13,11 +13,12 @@ import android.widget.LinearLayout;
 
 public class ChunkFrame extends LinearLayout{
 	private ChunkView chunkView;
-
+	public LayoutParams params;
 	
-	public ChunkFrame(Context context, MultiStrokes newChunk){
+	public ChunkFrame(Context context, MultiStrokes newChunk, LayoutParams childParams){
 		super(context);
 		chunkView = new ChunkView(context, newChunk);
+		params = new LayoutParams(childParams);
 		//this.setBackgroundColor(Color.GRAY);
 	}
 

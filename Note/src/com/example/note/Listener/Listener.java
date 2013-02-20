@@ -5,6 +5,7 @@ import com.example.note.R;
 import com.example.note.component.MultiStrokes;
 import com.example.note.component.Status;
 import com.example.note.view.ChunkLine;
+import com.example.note.view.InkRegion;
 import com.example.note.view.MagnifiedView;
 
 import android.graphics.Point;
@@ -118,6 +119,7 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 				if (mA.magnifiedView.largeStrokes.isEmpty()){
 					try{
 						mA.inkRegion.peekLast().undo();
+						mA.anchorView.anchor.setPoint(mA.inkRegion.peekLast().generateLastPosition());
 						mA.anchorView.invalidate();
 						mA.magnifiedView.invalidate();	
 					}catch(Exception e){
@@ -132,12 +134,21 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 			else{
 				mA.canvasView.undo();
 			}
+			
 		}
 		
 		if (v.getId()==R.id.erase){
-			System.out.println(mA.anchorView.anchor.getPoint()+",  "+mA.inkRegion.peekLast().generateLastPosition());
-			System.out.println(mA.inkRegion.peekLast().chunkLine.size()+", "+mA.inkRegion.peekLast().chunkLine.peekLast().chunkFrame.size());
-			mA.anchorView.anchor.setPoint(mA.inkRegion.peekLast().generateLastPosition());
+			for (InkRegion inkRegion : mA.inkRegion){
+				mA.noteLayout.removeView(inkRegion);
+			}
+			mA.inkRegion.clear();
+			mA.canvasView.largeStrokes.clear();
+			mA.magnifiedView.clear();
+			//
+			mA.canvasView.invalidate();
+			mA.anchorView.invalidate();
+			mA.magnifiedView.invalidate();
+			mA.initiateInkRegion();
 		}
 			
 	}

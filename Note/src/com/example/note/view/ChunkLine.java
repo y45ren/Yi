@@ -26,12 +26,13 @@ public class ChunkLine extends LinearLayout{
 
 	public void addChunk(MultiStrokes newChunk, Point pivotPoint, Point endPoint, double scale, int width, int regionHeight) {
 		// TODO Auto-generated method stub
-		chunkFrame.add(new ChunkFrame(getContext(), newChunk));
+		LayoutParams childParams = new LinearLayout.LayoutParams(width, regionHeight);
+		chunkFrame.add(new ChunkFrame(getContext(), newChunk, childParams));
 		chunkFrame.get(chunkFrame.size()-1).addChunk(newChunk, pivotPoint, endPoint, scale, width, regionHeight);
 		
 		//LayoutParams params = new LinearLayout.LayoutParams((int) width, regionHeight);
 		
-		LayoutParams childParams = new LinearLayout.LayoutParams(width, regionHeight);
+		
 		//LayoutParams childParams = new LinearLayout.LayoutParams(endPoint.x-pivotPoint.x, endPoint.y-pivotPoint.y);
 //		LayoutParams childParams = new LinearLayout.LayoutParams(endPoint.x-pivotPoint.x, endPoint.y-pivotPoint.y);
 //		childParams.leftMargin = -pivotPoint.x;
@@ -50,6 +51,7 @@ public class ChunkLine extends LinearLayout{
 	public void undo() {
 		// TODO Auto-generated method stub
 		this.chunkFrame.peekLast().undo();
+		this.params.width -= this.chunkFrame.peekLast().params.width;
 		this.removeView(this.chunkFrame.pollLast());
 	}
 	
