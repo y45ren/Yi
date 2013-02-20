@@ -14,6 +14,7 @@ public class InkRegion extends LinearLayout{
 	private int UID;
 	private int lineWidth;
 	private int lineHeight;
+	private int line;
 	private Point startPoint;
 	private float angle;
 	public RelativeLayout.LayoutParams params;
@@ -27,6 +28,7 @@ public class InkRegion extends LinearLayout{
 		this.setAngle(angle);
 		setLineWidth(0);
 		setLineHeight(2*h);
+		line = 0;
 		chunkLine = new LinkedList<ChunkLine>();
 		addInitialLine();
 		lastPosition = new Point();
@@ -56,7 +58,8 @@ public class InkRegion extends LinearLayout{
 			LayoutParams params = new LinearLayout.LayoutParams(
 					0, getLineHeight());
 
-			chunkLine.add(new ChunkLine(getContext(), params));
+			chunkLine.add(new ChunkLine(getContext(), params, line));
+			line++;
 			this.addView(chunkLine.get(0), chunkLine.get(0).params);
 		}
 		System.out.println("in Region, chunk is: " +chunkLine.size());
@@ -71,9 +74,10 @@ public class InkRegion extends LinearLayout{
 		LayoutParams params = new LinearLayout.LayoutParams(
 				0, getLineHeight());
 
-		chunkLine.add(new ChunkLine(getContext(), params));
+		chunkLine.add(new ChunkLine(getContext(), params, line));
+		line++;
 		this.params.height += getLineHeight();
-		this.addView(chunkLine.get(chunkLine.size()-1), chunkLine.get(chunkLine.size()-1).params);
+		this.addView(chunkLine.peekLast(), chunkLine.peekLast().params);
 		setLineWidth(0);
 	}
 	public void addInitialLine() {
@@ -81,8 +85,9 @@ public class InkRegion extends LinearLayout{
 		LayoutParams params = new LinearLayout.LayoutParams(
 				0, getLineHeight());
 
-		chunkLine.add(new ChunkLine(getContext(), params));
-		this.addView(chunkLine.get(chunkLine.size()-1), chunkLine.get(chunkLine.size()-1).params);
+		chunkLine.add(new ChunkLine(getContext(), params, line));
+		line++;
+		this.addView(chunkLine.peekLast(), chunkLine.peekLast().params);
 		setLineWidth(0);
 	}
 
@@ -90,6 +95,15 @@ public class InkRegion extends LinearLayout{
 		System.out.println("chunkLine has: "+this.chunkLine.peekLast().chunkFrame.size());
 		System.out.println("in undo: "+this.chunkLine.peekLast().getRight()+", "+ this.chunkLine.peekLast().getBottom());
 		Point temp = new Point(this.chunkLine.peekLast().params.width, this.chunkLine.size()*this.lineHeight);
+		double sin = Math.sin(Math.toRadians(angle));
+		double cos = Math.cos(Math.toRadians(angle));
+		lastPosition.set(startPoint.x+(int)(temp.x*cos-temp.y*sin), startPoint.y+(int)(temp.x*sin+temp.y*cos));
+		return this.lastPosition;
+	}
+	
+	public Point generatePosition(int line, int columns){
+		//MARK!
+		Point temp = new Point(this.chunkLine.get(line).params.leftMargin, (line+1)*this.lineHeight);
 		double sin = Math.sin(Math.toRadians(angle));
 		double cos = Math.cos(Math.toRadians(angle));
 		lastPosition.set(startPoint.x+(int)(temp.x*cos-temp.y*sin), startPoint.y+(int)(temp.x*sin+temp.y*cos));
@@ -134,6 +148,7 @@ public class InkRegion extends LinearLayout{
 			
 		}else if (chunkLine.peekLast().chunkFrame.size() == 0){
 			this.removeView(this.chunkLine.pollLast());
+			line--;
 		}else {
 			chunkLine.peekLast().undo();
 		}
@@ -153,6 +168,22 @@ public class InkRegion extends LinearLayout{
 	 */
 	public void setAngle(float angle) {
 		this.angle = angle;
+	}
+
+
+	/**
+	 * @return the line
+	 */
+	public int getLine() {
+		return line;
+	}
+
+
+	/**
+	 * @param line the line to set
+	 */
+	public void setLine(int line) {
+		this.line = line;
 	}
 
 

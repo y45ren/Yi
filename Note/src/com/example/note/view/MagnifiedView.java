@@ -62,17 +62,17 @@ public class MagnifiedView extends CanvasView{
 	public void computeSize(){
 		for (Stroke stroke:largeStrokes.chunk){
 			for (Point point:stroke.stroke){
-				if (point.x<minX){
-					minX=point.x;
+				if (point.x<minX+50){
+					minX=point.x-50;
 				}
-				if (point.y<minY){
-					minY=point.y;
+				if (point.y<minY+50){
+					minY=point.y-50;
 				}
-				if (point.x>maxX){
-					maxX=point.x;
+				if (point.x>maxX-50){
+					maxX=point.x+50;
 				}
-				if (point.y>maxY){
-					maxY=point.y;
+				if (point.y>maxY-50){
+					maxY=point.y+50;
 				}
 			}
 		}

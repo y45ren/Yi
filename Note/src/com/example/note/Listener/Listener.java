@@ -33,7 +33,7 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 		
 		//animate anchor:
         anchorBlink = new AlphaAnimation(1,0);
-        anchorBlink.setDuration(500);
+        anchorBlink.setDuration(360);
         anchorBlink.setRepeatCount(Animation.INFINITE);
         anchorBlink.setRepeatMode(Animation.REVERSE);
 	}
@@ -43,6 +43,7 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 		if (isChecked){
 //			mA.noteLayout.setBackgroundColor(0xffcdc9c8);
 			mA.anchorView.setAnimation(this.anchorBlink);
+			this.anchorBlink.start();
 			mA.next.setClickable(true);
 			mA.newLine.setClickable(true);
 		}else{

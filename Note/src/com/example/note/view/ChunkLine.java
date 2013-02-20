@@ -14,21 +14,26 @@ public class ChunkLine extends LinearLayout{
 
 	public LinkedList<ChunkFrame> chunkFrame;
 	public LayoutParams params;
+	private int line;
+	private int columns;
 	
-	public ChunkLine(Context context, LayoutParams params) {
+	public ChunkLine(Context context, LayoutParams params, int line) {
 		super(context);
 		// TODO Auto-generated constructor stub
 		this.setOrientation(HORIZONTAL);
+		this.line=line;
+		this.columns=0;
 		chunkFrame = new LinkedList<ChunkFrame>();
 		this.params = new LayoutParams(params);
-		this.setBackgroundColor(Color.YELLOW);
+		//this.setBackgroundColor(Color.YELLOW);
 	}
 
 	public void addChunk(MultiStrokes newChunk, Point pivotPoint, Point endPoint, double scale, int width, int regionHeight) {
 		// TODO Auto-generated method stub
 		LayoutParams childParams = new LinearLayout.LayoutParams(width, regionHeight);
-		chunkFrame.add(new ChunkFrame(getContext(), newChunk, childParams));
-		chunkFrame.get(chunkFrame.size()-1).addChunk(newChunk, pivotPoint, endPoint, scale, width, regionHeight);
+		chunkFrame.add(new ChunkFrame(getContext(), newChunk, childParams, line, columns));
+		columns++;
+		chunkFrame.peekLast().addChunk(newChunk, pivotPoint, endPoint, scale, width, regionHeight);
 		
 		//LayoutParams params = new LinearLayout.LayoutParams((int) width, regionHeight);
 		
@@ -42,7 +47,7 @@ public class ChunkLine extends LinearLayout{
 //		childParams.rightMargin = (int) ((endPoint.x-pivotPoint.x));
 //		childParams.bottomMargin = (int) ((endPoint.y-pivotPoint.y));
         
-		this.addView(chunkFrame.get(chunkFrame.size()-1),childParams);
+		this.addView(chunkFrame.peekLast(),childParams);
 		
 		this.params.width += width;
 		System.out.println("a: "+(int)width+"b: "+this.params.width);
@@ -53,6 +58,7 @@ public class ChunkLine extends LinearLayout{
 		this.chunkFrame.peekLast().undo();
 		this.params.width -= this.chunkFrame.peekLast().params.width;
 		this.removeView(this.chunkFrame.pollLast());
+		this.columns--;
 	}
 	
 }

@@ -8,17 +8,22 @@ import android.R.color;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.view.MotionEvent;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
 public class ChunkFrame extends LinearLayout{
 	private ChunkView chunkView;
 	public LayoutParams params;
+	private int line;
+	private int columns;
 	
-	public ChunkFrame(Context context, MultiStrokes newChunk, LayoutParams childParams){
+	public ChunkFrame(Context context, MultiStrokes newChunk, LayoutParams childParams, int line, int columns){
 		super(context);
 		chunkView = new ChunkView(context, newChunk);
 		params = new LayoutParams(childParams);
+		this.line = line;
+		this.columns = columns;
 		//this.setBackgroundColor(Color.GRAY);
 	}
 
@@ -44,5 +49,11 @@ public class ChunkFrame extends LinearLayout{
 	public void undo() {
 		// TODO Auto-generated method stub
 		this.removeAllViews();
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event){
+		
+		return false;
 	}
 }
