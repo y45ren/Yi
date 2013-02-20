@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import com.example.note.Listener.Listener;
 import com.example.note.component.MultiStrokes;
 import com.example.note.component.Status;
+import com.example.note.component.myTimer;
 import com.example.note.view.AnchorView;
 import com.example.note.view.CanvasView;
 import com.example.note.view.InkRegion;
