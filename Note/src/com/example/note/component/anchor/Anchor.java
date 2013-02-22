@@ -23,7 +23,7 @@ public class Anchor {
 	private int height;
 	private int width;
 	private int anchorLen = 20;
-	final int lineLen = 150;
+	private int lineLen = 150;
 	final int anchorRange = 40;
 	private boolean redCross = false;
 
@@ -203,8 +203,10 @@ public class Anchor {
 //		Point b = rotatePoint((new Point(startPoint.x, startPoint.y+getAnchorLen())));
 //		this.anchorLen = ((b.x-a.x)*(eventPoint.x-a.x)+(b.y-a.y)*(eventPoint.y-a.y));
 //		System.out.println("ANCHORLEN: "+ ((b.x-a.x)*(eventPoint.x-a.x)+(b.y-a.y)*(eventPoint.y-a.y)));
-		this.anchorLen = (int) Math.sqrt(Math.pow((eventPoint.x-startPoint.x),2)+Math.pow((eventPoint.y-startPoint.y),2));
-		System.out.println("ANCHORLEN: "+this.anchorLen);
+		int newLen = (int) Math.sqrt(Math.pow((eventPoint.x-startPoint.x),2)+Math.pow((eventPoint.y-startPoint.y),2));
+		this.lineLen = (int) ((double) newLen/ (double) this.anchorLen * this.lineLen);
+		this.anchorLen = newLen;
+//		System.out.println("ANCHORLEN: "+this.anchorLen);
 		
 	}
 	
@@ -272,6 +274,6 @@ public class Anchor {
 	public void setRedCross(boolean b) {
 		// TODO Auto-generated method stub
 		this.redCross = b;
-		System.out.println("adsfadsfdsf"+this.redCross);
+//		System.out.println("adsfadsfdsf"+this.redCross);
 	}
 }

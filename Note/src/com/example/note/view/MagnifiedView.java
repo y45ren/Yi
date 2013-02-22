@@ -34,7 +34,7 @@ public class MagnifiedView extends CanvasView{
 	public MagnifiedView(Context context) {
 		
 		super(context);
-		notesPaint = MyPaint.createPaint(Color.BLACK, 8);
+		notesPaint = MyPaint.createPaint(Color.BLACK, 10);
 		minX=4000;
 		minY=4000;
 		maxX=0;
