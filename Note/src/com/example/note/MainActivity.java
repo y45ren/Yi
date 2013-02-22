@@ -35,6 +35,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.*;
+import android.widget.LinearLayout.LayoutParams;
 
 public class MainActivity extends Activity{
 
@@ -111,6 +112,7 @@ public class MainActivity extends Activity{
         inkRegion = new LinkedList<InkRegion>();
         new MultiStrokes();
         canvasView = new CanvasView(this);
+        
         magnifiedView = new MagnifiedView(this);
         
         anchorView = new AnchorView(this);
@@ -136,6 +138,9 @@ public class MainActivity extends Activity{
         
         //noteLayout.addView(canvasView);
         noteLayout.addView(canvasView);
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(2000, 2000);
+//		params.leftMargin = -750;
+//        params.topMargin = -850;
         noteLayout.addView(magnifiedView);       
         noteLayout.addView(anchorView);
 
@@ -157,18 +162,18 @@ public class MainActivity extends Activity{
     	int actionCode = action & MotionEvent.ACTION_MASK;
 //    	System.out.println("NUB ERVMERV: "+event.getActionIndex());
 //    	System.out.println("dfdetdfg: "+event.getPointerCount());
- 
+  
     	if (!switchy.isChecked()){
     		// Non-magnify mode
     	switch(actionCode){
 			case MotionEvent.ACTION_DOWN:
-				canvasView.largeStrokes.addStroke(eventPoint);
+				canvasView.addStroke(eventPoint);
 				canvasView.invalidate();			
 				break;
 			case MotionEvent.ACTION_CANCEL:
 				break;
 			case MotionEvent.ACTION_MOVE:
-				canvasView.largeStrokes.addPoint(eventPoint);	
+				canvasView.addPoint(eventPoint);	
 				canvasView.invalidate();
 				break;
 			case MotionEvent.ACTION_UP:
@@ -186,7 +191,7 @@ public class MainActivity extends Activity{
 				switch(status){
 				case WRITING:
 					setAnchorPoint.set(eventPoint.x, eventPoint.y);
-					magnifiedView.largeStrokes.addStroke(eventPoint);
+					magnifiedView.addStroke(eventPoint);
 					magnifiedView.invalidate();
 					try{
 						timer.cancel();
@@ -217,7 +222,7 @@ public class MainActivity extends Activity{
 						anchorTimer.cancel();
 						anchorTimer.purge();
 					}
-					magnifiedView.largeStrokes.addPoint(eventPoint);
+					magnifiedView.addPoint(eventPoint);
 					magnifiedView.invalidate();
 					break;
 				case LOCATINGANCHOR:
@@ -252,8 +257,10 @@ public class MainActivity extends Activity{
 							anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
 					
 					this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),inkRegion.get(inkRegion.size()-1).params);
+					this.magnifiedView.setAngle(anchorView.anchor.getAngle());
+//					this.magnifiedView.setRotation(anchorView.anchor.getAngleInDegrees());
 					//inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);	
-				
+					this.anchorView.invalidate();
 					break;
 				case SCALINGANCHOR:
 					status = Status.WRITING;
@@ -297,7 +304,7 @@ public class MainActivity extends Activity{
 					System.out.println("timer triggered!");
 				
 					MultiStrokes newChunk = new MultiStrokes();
-					newChunk.copyChunk(magnifiedView.largeStrokes);
+					newChunk.copyChunk(magnifiedView.getRotateChunk());
 					int regionIndex = inkRegion.size()-1;
 					Point pivotPoint = new Point(magnifiedView.minX, magnifiedView.minY);
 					Point endPoint = new Point(magnifiedView.maxX, magnifiedView.maxY);

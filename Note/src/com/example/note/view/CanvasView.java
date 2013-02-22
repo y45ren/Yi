@@ -34,11 +34,6 @@ public class CanvasView extends View{
 	private Paint framePaint;
 	private Paint debugPaint;
 	
-	/**
-	 * states
-	 */
-	private enum State {MAGNIFY, WRITING, EDITING, NON_MAGNIFY, MAG2NON, NON2MAG, MAG2WRITING, WRITING2MAG, WRITING2NON};
-	private State state;
 	
 
 	
@@ -72,6 +67,20 @@ public class CanvasView extends View{
 			largeStrokes.chunk.removeLast();
 		}
 		this.invalidate();
+	}
+
+
+
+	public void addStroke(Point eventPoint) {
+		// TODO Auto-generated method stub
+		this.largeStrokes.addStroke(eventPoint);
+	}
+
+
+
+	public void addPoint(Point eventPoint) {
+		// TODO Auto-generated method stub
+		this.largeStrokes.addPoint(eventPoint);
 	}
     
 
