@@ -60,5 +60,10 @@ public class ChunkLine extends LinearLayout{
 		this.removeView(this.chunkFrame.pollLast());
 		this.columns--;
 	}
+
+	public int getColumns() {
+		// TODO Auto-generated method stub
+		return this.columns;
+	}
 	
 }

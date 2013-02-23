@@ -137,10 +137,15 @@ public class Listener implements CompoundButton.OnCheckedChangeListener, OnClick
 				//not crrently drawing 
 				if (mA.magnifiedView.largeStrokes.isEmpty()){
 					try{
+						if (mA.inkRegion.peekLast().getLine() == 1 && mA.inkRegion.peekLast().chunkLine.get(0).getColumns() == 0 && mA.inkRegion.size()!=1){
+							mA.inkRegion.removeLast();
+						}
 						mA.inkRegion.peekLast().undo();
 						mA.anchorView.anchor.setPoint(mA.inkRegion.peekLast().generateLastPosition());
+						mA.anchorView.anchor.setAngle((float)(Math.toRadians(mA.inkRegion.peekLast().getAngle())));
 						mA.anchorView.invalidate();
-						mA.magnifiedView.invalidate();	
+						mA.magnifiedView.invalidate();
+						
 					}catch(Exception e){
 						
 					}

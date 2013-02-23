@@ -69,7 +69,16 @@ public class MultiStrokes {
 			}
 		}
 	}
-
+	
+	public void drawInLarge (Canvas c, Paint paint) {
+		// TODO Auto-generated method stub
+		for(Stroke stroke: chunk){
+			if(stroke.stroke.size()!=0){
+				
+				stroke.drawInLarge(c, paint);
+			}
+		}
+	}
 
 	public void transform(int maxX, int maxY, int minX, int minY, int height) {
 		// TODO Auto-generated method stub

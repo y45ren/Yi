@@ -64,7 +64,7 @@ public class MagnifiedView extends CanvasView{
 		//System.out.println("MaginfView draw CALLED!!!");
 //		c.drawLine(minX, minY, maxX, maxY, notesPaint);
 		//draw large strokes
-		largeStrokes.draw(c, notesPaint);
+		largeStrokes.drawInLarge(c, notesPaint);
 //		this.rotatedChunk.draw(c, testPaint);
 	}
 	
@@ -98,9 +98,13 @@ public class MagnifiedView extends CanvasView{
 	
 	@Override
     public void undo(){
+		if (!this.rotatedChunk.isEmpty()){
+			rotatedChunk.chunk.removeLast();
+		}
     	super.undo();
     }
 
+	
 	public void setAngle(float angle) {
 		// TODO Auto-generated method stub
 		this.angle = angle;

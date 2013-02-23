@@ -34,10 +34,11 @@ public class ChunkFrame extends LinearLayout{
 		
 		LayoutParams childParams = new LinearLayout.LayoutParams(endPoint.x, endPoint.y);
 		childParams.leftMargin = -pivotPoint.x;
-		childParams.topMargin = -pivotPoint.y;
+//		childParams.bottomMargin = regionHeight-endPoint.y;
+		childParams.topMargin = -pivotPoint.y+(regionHeight-(endPoint.y-pivotPoint.y));
 		
 		chunkView.setPivotX(pivotPoint.x);
-        chunkView.setPivotY(pivotPoint.y);
+        chunkView.setPivotY(endPoint.y);
         chunkView.setScale(scale);
         
         chunkView.setScaleX((float) scale);

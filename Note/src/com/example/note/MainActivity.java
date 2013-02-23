@@ -247,6 +247,7 @@ public class MainActivity extends Activity{
 				case LOCATINGANCHOR:
 					status = Status.WRITING;
 					anchorView.anchor.setRedCross(false);
+					anchorView.anchor.setPoint(eventPoint);
 					sm.unregisterListener(anchorSensorListener);
 					
 					if (inkRegion.size()!=0 && inkRegion.get(inkRegion.size()-1).chunkLine.size()==0){
@@ -256,10 +257,12 @@ public class MainActivity extends Activity{
 					inkRegion.add(new InkRegion(this, anchorView.anchor.getAnchorLen(), 
 							anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
 					
+					System.out.println(eventPoint+ ", "+anchorView.anchor.getPoint());
+					
 					this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),inkRegion.get(inkRegion.size()-1).params);
 					this.magnifiedView.setAngle(anchorView.anchor.getAngle());
 //					this.magnifiedView.setRotation(anchorView.anchor.getAngleInDegrees());
-					//inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);	
+					
 					this.anchorView.invalidate();
 					break;
 				case SCALINGANCHOR:
@@ -271,7 +274,7 @@ public class MainActivity extends Activity{
 					inkRegion.add(new InkRegion(this, anchorView.anchor.getAnchorLen(), 
 							anchorView.anchor.getPoint(), anchorView.anchor.getAngleInDegrees()));
 					this.noteLayout.addView(inkRegion.get(inkRegion.size()-1),inkRegion.get(inkRegion.size()-1).params);
-					//inkRegion.get(inkRegion.size()-1).setBackgroundColor(Color.RED);
+
 					anchorView.invalidate();
 					break;
 				}	

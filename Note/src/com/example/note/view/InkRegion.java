@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import com.example.note.component.MultiStrokes;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
@@ -24,7 +25,8 @@ public class InkRegion extends LinearLayout{
 	public InkRegion(Context context, int h, Point sP, float angle) {
 		super(context);
 		this.setOrientation(VERTICAL);
-		startPoint = new Point(sP.x,sP.y-2*h);
+		startPoint = new Point((int)(sP.x-2*h*Math.sin(Math.toRadians(-angle))),(int)(sP.y-2*h*Math.cos(Math.toRadians(-angle))));
+//		startPoint = new Point(sP.x,sP.y);
 		this.setAngle(angle);
 		setLineWidth(0);
 		setLineHeight(2*h);
@@ -39,15 +41,16 @@ public class InkRegion extends LinearLayout{
         this.setPivotX(0);
         this.setPivotY(0);
         this.setRotation(angle);
+//		this.setBackgroundColor(Color.RED);
 	}
 
-	
-	public boolean onTouchEvent(MotionEvent event){
-		Point eventPoint = new Point((int)event.getX(),(int)event.getY());
-		System.out.println("InkRegion  "+this.UID+" : "+eventPoint);
-		return false;
-		
-	}
+//	
+//	public boolean onTouchEvent(MotionEvent event){
+//		Point eventPoint = new Point((int)event.getX(),(int)event.getY());
+//		System.out.println("InkRegion  "+this.UID+" : "+eventPoint);
+//		return false;
+//		
+//	}
 	
 	public void addChunk(MultiStrokes newChunk, Point pivotPoint, Point endPoint, double scale, int width) {
 		setLineWidth(getLineWidth() + width);
@@ -184,6 +187,12 @@ public class InkRegion extends LinearLayout{
 	 */
 	public void setLine(int line) {
 		this.line = line;
+	}
+
+
+	public Point getStartPoint() {
+		// TODO Auto-generated method stub
+		return this.startPoint;
 	}
 
 
