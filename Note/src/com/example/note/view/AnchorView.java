@@ -26,10 +26,10 @@ public class AnchorView extends View{
         anchorBlink.setDuration(360);
         anchorBlink.setRepeatCount(Animation.INFINITE);
         anchorBlink.setRepeatMode(Animation.REVERSE);
-        this.setAnimation(anchorBlink);
+        //this.setAnimation(anchorBlink);
        
-        this.startAnimation();
-        this.pauseAnimation();
+       // this.startAnimation();
+       // this.pauseAnimation();
 	}
 	@Override
 	public void onSizeChanged(int w,int h,int ow, int oh){
@@ -64,11 +64,11 @@ public class AnchorView extends View{
 
 	public void startAnimation() {
 		// TODO Auto-generated method stub
-		this.anchorBlink.startNow();
+		//this.anchorBlink.startNow();
 	}
 	public void pauseAnimation() {
 		// TODO Auto-generated method stub
-		this.anchorBlink.cancel();
-		this.anchorBlink.reset();
+		//this.anchorBlink.cancel();
+		//this.anchorBlink.reset();
 	}
 }

@@ -64,6 +64,42 @@ public class Stroke {
 //		//Polyline polyline = myMap.addPolyline(rectOptions);
 		
 		
+//		if (stroke.size() > 0) {
+//			Point p0 = stroke.get(0);
+//			for (int i = 1; i < stroke.size(); i++) {
+//				Point p1 = stroke.get(i);
+//				
+//				c.drawLine(p0.x, p0.y, p1.x, p1.y, paint);
+////				paint.setStrokeWidth(paint.getStrokeWidth()-1);
+////				c.drawPoint(p0.x, p0.y, paint);
+////				
+//				p0 = p1;
+//			}
+//		}
+		Path path = new Path();
+	    boolean first = true;
+	    for(int i = 0; i < stroke.size(); i += 2){
+	        Point point = stroke.get(i);
+	        if(first){
+	            first = false;
+	            path.moveTo(point.x, point.y);
+	        }
+
+	        else if(i < stroke.size() - 1){
+	            Point next = stroke.get(i + 1);
+	            path.quadTo(point.x, point.y, next.x, next.y);
+	        }
+	        else{
+	            path.lineTo(point.x, point.y);
+	        }
+	    }
+
+	    c.drawPath(path, paint);
+	}
+	
+	public void drawOld(Canvas c, Paint paint) {
+	
+		
 		if (stroke.size() > 0) {
 			Point p0 = stroke.get(0);
 			for (int i = 1; i < stroke.size(); i++) {
@@ -76,22 +112,29 @@ public class Stroke {
 				p0 = p1;
 			}
 		}
+		
 	}
 	
 	public void drawInLarge(Canvas c, Paint paint){
-		Paint dotPaint = MyPaint.createPaint(Color.BLACK, 4);
-		if (stroke.size() > 0) {
-			Point p0 = stroke.get(0);
-			for (int i = 1; i < stroke.size(); i++) {
-				Point p1 = stroke.get(i);
-				
-				c.drawLine(p0.x, p0.y, p1.x, p1.y, paint);
-				paint.setStrokeWidth(paint.getStrokeWidth());
-//				c.drawPoint(p0.x, p0.y, paint);
-				c.drawCircle(p0.x, p0.y, (float) 2.5, dotPaint);
-				p0 = p1;
-			}
-		}
+		Path path = new Path();
+	    boolean first = true;
+	    for(int i = 0; i < stroke.size(); i += 2){
+	        Point point = stroke.get(i);
+	        if(first){
+	            first = false;
+	            path.moveTo(point.x, point.y);
+	        }
+
+	        else if(i < stroke.size() - 1){
+	            Point next = stroke.get(i + 1);
+	            path.quadTo(point.x, point.y, next.x, next.y);
+	        }
+	        else{
+	            path.lineTo(point.x, point.y);
+	        }
+	    }
+
+	    c.drawPath(path, paint);
 	}
 	
 	public void print() {

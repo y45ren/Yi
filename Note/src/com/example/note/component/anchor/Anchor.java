@@ -87,11 +87,15 @@ public class Anchor {
 	
 	public void draw(Canvas c){
 		if (redCross){
-			generateCrossLine().draw(c, crossLinePaint);
+			for(Stroke stroke: generateCrossLine().chunk){
+				if(stroke.stroke.size()!=0){
+					stroke.drawOld(c, crossLinePaint);
+				}
+			}
 		}
 		
-		generateAnchor().draw(c, anchorPaint);
-		generateLine().draw(c, linePaint);
+		generateAnchor().drawOld(c, anchorPaint);
+		generateLine().drawOld(c, linePaint);
 	}
 	
 	/**

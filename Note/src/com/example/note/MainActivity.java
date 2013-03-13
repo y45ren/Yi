@@ -62,7 +62,7 @@ public class MainActivity extends Activity{
 	
 	public Timer timer;
 	private Timer anchorTimer;
-	final private int activeTime = 750;
+	final private int activeTime = 10000;
 	final private int holdAchorTime = 650;
 	final private int vibrationTime = 100;
 	/**
@@ -347,7 +347,7 @@ public class MainActivity extends Activity{
 				} 
 				anchorView.postInvalidate();
 			}
-		}, activeTime);
+		}, holdAchorTime);
 	}
     
     /**
