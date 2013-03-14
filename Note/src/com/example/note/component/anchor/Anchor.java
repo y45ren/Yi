@@ -3,6 +3,7 @@ package com.example.note.component.anchor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.hardware.SensorManager;
 import java.math.*;
@@ -75,23 +76,28 @@ public class Anchor {
 
 		return stroke;
 	}
-	public MultiStrokes generateCrossLine(){
-		MultiStrokes multiStrokes = new MultiStrokes();
+	private Stroke generateCrossLine1(){
+		Stroke stroke = new Stroke();
 		double tan=Math.tan(getAngle());
-		multiStrokes.addStroke(new Point((int) (startPoint.x+startPoint.y*tan),0));
-		multiStrokes.addPoint(new Point((int) (startPoint.x-(getHeight()-startPoint.y)*tan),getHeight()));
-		multiStrokes.addStroke(new Point(0, (int) (startPoint.y-startPoint.x*tan)));
-		multiStrokes.addPoint(new Point(getWidth(), (int) (startPoint.y+(getWidth()-startPoint.x)*tan)));
-		return multiStrokes;
+		stroke.addPoint(new Point((int) (startPoint.x+startPoint.y*tan),0));
+		stroke.addPoint(new Point((int) (startPoint.x-(getHeight()-startPoint.y)*tan),getHeight()));
+		
+		return stroke;
+	}
+	
+	private Stroke generateCrossLine2(){
+		Stroke stroke = new Stroke();
+		double tan=Math.tan(getAngle());
+		
+		stroke.addPoint(new Point(0, (int) (startPoint.y-startPoint.x*tan)));
+		stroke.addPoint(new Point(getWidth(), (int) (startPoint.y+(getWidth()-startPoint.x)*tan)));
+		return stroke;
 	}
 	
 	public void draw(Canvas c){
 		if (redCross){
-			for(Stroke stroke: generateCrossLine().chunk){
-				if(stroke.stroke.size()!=0){
-					stroke.drawOld(c, crossLinePaint);
-				}
-			}
+			this.generateCrossLine1().drawOld(c, crossLinePaint);
+			this.generateCrossLine2().drawOld(c, crossLinePaint);
 		}
 		
 		generateAnchor().drawOld(c, anchorPaint);

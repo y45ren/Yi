@@ -10,7 +10,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -25,6 +27,7 @@ public class CanvasView extends View{
 	 * components
 	 */
 	public MultiStrokes largeStrokes;
+	
 
 	/**
 	 * paints
@@ -60,12 +63,31 @@ public class CanvasView extends View{
 		//System.out.println("canvasView draw CALLED!!!");
 		//draw large strokes
 		largeStrokes.draw(c, notesPaint);
+		
+		
+//		if (this.largeStrokes.chunk.size()!=1){
+//			c.drawPath(largeStrokes.chunk.get(1), notesPaint);
+//			System.out.println("Printed!!!");
+//		}else{
+//			c.drawPath(largeStrokes.chunk.get(0), notesPaint);
+//		}
 	}
 	
 	public void undo(){
 		if (!this.largeStrokes.isEmpty()){
-			largeStrokes.chunk.removeLast();
+			largeStrokes.chunk.removeFirst();
 		}
+		
+		RectF bounds = new RectF();
+		for (Path stroke:this.largeStrokes.chunk){
+			
+			stroke.computeBounds(bounds, true);
+			System.out.println("@@@@@@@@@@@@@ "+bounds);
+			
+		}
+		
+		System.out.println("asdfasdfasdf "+ this.largeStrokes.chunk.size() + " "+ this.largeStrokes.chunk.peek().isEmpty());
+		
 		this.invalidate();
 	}
 

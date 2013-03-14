@@ -13,6 +13,7 @@ public class MyPaint {
 		temp.setStrokeWidth(width);
 		temp.setStrokeCap(Cap.ROUND);
 
+		//updated the following code in the new version, resulting in a better performance of painting.
 		temp.setDither(true);
 		temp.setStrokeJoin(Paint.Join.ROUND);
 		temp.setPathEffect(new CornerPathEffect(100));

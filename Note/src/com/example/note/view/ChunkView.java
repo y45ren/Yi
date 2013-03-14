@@ -28,10 +28,9 @@ public class ChunkView extends View{
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		int thickness = (int) (8/scale-1);
 		notesPaint = MyPaint.createPaint(Color.BLACK, 8);
 		chunk.draw(canvas, notesPaint);
-		//System.out.println("chunkView draw CALLED!!!");
+		System.out.println("chunkView draw CALLED!!!"+chunk.chunk.size());
 	}
 
 	public void addChunk(MultiStrokes newChunk) {

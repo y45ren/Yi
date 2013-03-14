@@ -10,7 +10,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -64,27 +66,30 @@ public class MagnifiedView extends CanvasView{
 		//System.out.println("MaginfView draw CALLED!!!");
 //		c.drawLine(minX, minY, maxX, maxY, notesPaint);
 		//draw large strokes
-		largeStrokes.drawInLarge(c, notesPaint);
+		largeStrokes.draw(c, notesPaint);
 //		this.rotatedChunk.draw(c, testPaint);
 	}
 	
 	public void computeSize(){
-		for (Stroke stroke:this.rotatedChunk.chunk){
-			for (Point point:stroke.stroke){
+		RectF bounds = new RectF();
+		for (Path stroke:this.rotatedChunk.chunk){
+			
+			
+			stroke.computeBounds(bounds, true);
 				
-				if (point.x<minX+50){
-					minX=point.x-50;
+				if (bounds.left< minX+50){
+					minX=(int) (bounds.left - 50);
 				}
-				if (point.y<minY+50){
-					minY=point.y-50;
+				if (bounds.top<minY+50){
+					minY=(int) (bounds.top-50);
 				}
-				if (point.x>maxX-50){
-					maxX=point.x+50;
+				if (bounds.right>maxX-50){
+					maxX=(int) (bounds.right+50);
 				}
-				if (point.y>maxY-50){
-					maxY=point.y+50;
+				if (bounds.bottom>maxY-50){
+					maxY=(int) (bounds.bottom+50);
 				}
-			}
+			
 		}
 	}
 	public void clear(){
@@ -99,7 +104,7 @@ public class MagnifiedView extends CanvasView{
 	@Override
     public void undo(){
 		if (!this.rotatedChunk.isEmpty()){
-			rotatedChunk.chunk.removeLast();
+			rotatedChunk.chunk.removeFirst();
 		}
     	super.undo();
     }

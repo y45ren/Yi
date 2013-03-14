@@ -4,46 +4,51 @@ import java.util.LinkedList;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
 
 public class MultiStrokes {
 	
-	public LinkedList<Stroke> chunk;
+	public LinkedList<Path> chunk;
 	
 	public MultiStrokes() {
 		// TODO Auto-generated constructor stub
 
-		chunk = new LinkedList<Stroke>();
+		chunk = new LinkedList<Path>();
+		chunk.add(new Path());
 	}
 
 
 	public MultiStrokes(MultiStrokes chunk2) {
 		// TODO Auto-generated constructor stub
 
-		chunk = new LinkedList<Stroke>();
-		for (Stroke stroke: chunk2.chunk){
-			chunk.add(new Stroke(stroke));
+		chunk = new LinkedList<Path>();
+		
+		for (Path stroke: chunk2.chunk){
+			chunk.add(new Path(stroke));
 		}
 	}
 	
 	public void copyChunk(MultiStrokes chunk2){
 
-		chunk = new LinkedList<Stroke>();
-		for (Stroke stroke: chunk2.chunk){
-			chunk.add(new Stroke(stroke));
+		chunk = new LinkedList<Path>();
+		
+		for (Path stroke: chunk2.chunk){
+			chunk.add(new Path(stroke));
 		}
 	}
 
 
 	public void addStroke(Point point) {
 		// TODO Auto-generated method stub
-		chunk.add(new Stroke());
-		chunk.get(chunk.size()-1).addPoint(point);
+		//add a copy of current path to the 2nd of the queue
+		chunk.add(1, (new Path(chunk.peek())));
+		chunk.peek().moveTo(point.x, point.y);
 	}
 
 	public void addStroke() {
 		// TODO Auto-generated method stub
-		chunk.add(new Stroke());
+		chunk.add(1, (new Path(chunk.peek())));
 	}
 
 	/**
@@ -52,43 +57,41 @@ public class MultiStrokes {
 	 */
 	public void addPoint(Point point) {
 		// TODO Auto-generated method stub
-		chunk.get(chunk.size()-1).addPoint(point);
+		chunk.peek().lineTo(point.x, point.y);
 	}
 
 
 	public void clear() {
 		// TODO Auto-generated method stub
 		chunk.clear();
+		chunk.add(new Path());
 	}
 	
 	public void draw (Canvas c, Paint paint) {
 		// TODO Auto-generated method stub
-		for(Stroke stroke: chunk){
-			if(stroke.stroke.size()!=0){
-				stroke.draw(c, paint);
-			}
-		}
-	}
-	
-	public void drawInLarge (Canvas c, Paint paint) {
-		// TODO Auto-generated method stub
-		for(Stroke stroke: chunk){
-			if(stroke.stroke.size()!=0){
-				
-				stroke.drawInLarge(c, paint);
+//		for(Path stroke: chunk){
+//			if(!stroke.isEmpty()){
+//				c.drawPath(stroke, paint);
+//			}
+//		}
+		if (!chunk.isEmpty()){
+			if (!chunk.peek().isEmpty()){
+				c.drawPath(chunk.peek(), paint);
+				System.out.println(chunk.peek().toString());
 			}
 		}
 	}
 
-	public void transform(int maxX, int maxY, int minX, int minY, int height) {
-		// TODO Auto-generated method stub
-		for (Stroke stroke:chunk){
-			for (Point point:stroke.stroke){
-				point.set(point.x-minX, point.y=minY);
-			}
-		}
-		
-	}
+
+//	public void transform(int maxX, int maxY, int minX, int minY, int height) {
+//		// TODO Auto-generated method stub
+//		for (Stroke stroke:chunk){
+//			for (Point point:stroke.stroke){
+//				point.set(point.x-minX, point.y=minY);
+//			}
+//		}
+//		
+//	}
 
 
 	public boolean isEmpty() {
