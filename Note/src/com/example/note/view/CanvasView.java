@@ -75,20 +75,23 @@ public class CanvasView extends View{
 	
 	public void undo(){
 		if (!this.largeStrokes.isEmpty()){
+			this.invalidate();
 			largeStrokes.chunk.removeFirst();
+			this.invalidate();this.invalidate();this.invalidate();this.invalidate();
+			RectF bounds = new RectF();
+			for (Path stroke:this.largeStrokes.chunk){
+				
+				stroke.computeBounds(bounds, true);
+				System.out.println("@@@@@@@@@@@@@ "+bounds);
+				
+			}
+			
+			System.out.println("asdfasdfasdf "+ this.largeStrokes.chunk.size() + " "+ this.largeStrokes.chunk.peek().isEmpty());
+			
+			this.invalidate();
 		}
 		
-		RectF bounds = new RectF();
-		for (Path stroke:this.largeStrokes.chunk){
-			
-			stroke.computeBounds(bounds, true);
-			System.out.println("@@@@@@@@@@@@@ "+bounds);
-			
-		}
 		
-		System.out.println("asdfasdfasdf "+ this.largeStrokes.chunk.size() + " "+ this.largeStrokes.chunk.peek().isEmpty());
-		
-		this.invalidate();
 	}
 
 
